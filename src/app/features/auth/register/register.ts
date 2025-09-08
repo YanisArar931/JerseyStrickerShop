@@ -27,15 +27,13 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div
-      class="min-h-screen text-black w-fit flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
-    >
-      <div class="w-full space-y-8">
+    <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div class="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-lg">
         <div>
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Créer un compte</h2>
+          <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">Créer un compte</h2>
         </div>
 
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
           <!-- Nom -->
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700"> Nom </label>
@@ -47,9 +45,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               [class.border-red-500]="isFieldInvalid('name')"
             />
             @if (isFieldInvalid('name')) {
-              <p class="mt-1 text-sm text-red-600">
-                {{ getFieldError('name') }}
-              </p>
+              <p class="mt-1 text-sm text-red-600">{{ getFieldError('name') }}</p>
             }
           </div>
 
@@ -64,9 +60,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               [class.border-red-500]="isFieldInvalid('firstname')"
             />
             @if (isFieldInvalid('firstname')) {
-              <p class="mt-1 text-sm text-red-600">
-                {{ getFieldError('firstname') }}
-              </p>
+              <p class="mt-1 text-sm text-red-600">{{ getFieldError('firstname') }}</p>
             }
           </div>
 
@@ -83,13 +77,11 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               [class.border-red-500]="isFieldInvalid('email')"
             />
             @if (isFieldInvalid('email')) {
-              <p class="mt-1 text-sm text-red-600">
-                {{ getFieldError('email') }}
-              </p>
+              <p class="mt-1 text-sm text-red-600">{{ getFieldError('email') }}</p>
             }
           </div>
 
-          <!-- Password -->
+          <!-- Mot de passe -->
           <div>
             <label for="password" class="block text-sm font-medium text-gray-700">
               Mot de passe
@@ -102,16 +94,14 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               [class.border-red-500]="isFieldInvalid('password')"
             />
             @if (isFieldInvalid('password')) {
-              <p class="mt-1 text-sm text-red-600">
-                {{ getFieldError('password') }}
-              </p>
+              <p class="mt-1 text-sm text-red-600">{{ getFieldError('password') }}</p>
             }
           </div>
 
-          <!-- Confirm Password -->
+          <!-- Confirmation mot de passe -->
           <div>
             <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
-              Confirmer le mot de passe
+              Confirmer
             </label>
             <input
               id="confirmPassword"
@@ -121,13 +111,11 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               [class.border-red-500]="isFieldInvalid('confirmPassword')"
             />
             @if (isFieldInvalid('confirmPassword')) {
-              <p class="mt-1 text-sm text-red-600">
-                {{ getFieldError('confirmPassword') }}
-              </p>
+              <p class="mt-1 text-sm text-red-600">{{ getFieldError('confirmPassword') }}</p>
             }
           </div>
 
-          <!-- Submit Button -->
+          <!-- Bouton submit -->
           <div>
             <button
               type="submit"
@@ -145,7 +133,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
             </button>
           </div>
 
-          <!-- Error Message -->
+          <!-- Message erreur -->
           @if (error()) {
             <div class="bg-red-50 border border-red-200 rounded-md p-4">
               <p class="text-sm text-red-600">{{ error() }}</p>

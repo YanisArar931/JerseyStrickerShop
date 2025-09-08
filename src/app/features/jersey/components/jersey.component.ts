@@ -12,23 +12,18 @@ import { JerseyService } from '../services/jersey.service';
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold mb-6">Jersey</h2>
 
-      <!-- Loading state -->
-      @if (loading()) {
-        <div class="text-center py-8">
-          <div
-            class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
-          ></div>
-          <p class="mt-2 text-gray-600">Chargement des maillots ...</p>
+      <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 place-items-center">
+          @for (champ of championnats; track champ.name) {
+            <div class="flex flex-col items-center">
+              <img [src]="champ.logo" [alt]="champ.name" class="h-16 w-16 object-contain" />
+              <span class="mt-2 text-sm text-gray-700 font-medium">
+                {{ champ.name }}
+              </span>
+            </div>
+          }
         </div>
-      } @else {
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-          <h3 class="text-xl font-semibold mb-4">Championats</h3>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </div>
-        <!-- Liste des maillots -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">JERSEY STRICKER</div>
-      }
+      </div>
     </div>
   `,
   styles: [],
@@ -54,4 +49,12 @@ export class JerseyListComponent implements OnInit {
       this.loading.set(false);
     }
   }
+
+  championnats = [
+    { name: '', logo: 'assets/icon/ligue1mcdo.png' },
+    { name: '', logo: 'assets/icon/premierleague.png' },
+    { name: '', logo: 'assets/icon/laliga.png' },
+    { name: '', logo: 'assets/icon/bundesliga.png' },
+    { name: '', logo: 'assets/icon/seriea.png' },
+  ];
 }
