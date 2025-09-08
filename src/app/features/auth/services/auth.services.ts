@@ -73,7 +73,6 @@ export class AuthService {
     };
 
     this.users.push(newUser);
-    this.setCurrentUser(newUser); // Sauvegarde dans localStorage
     return of(newUser).pipe(delay(500));
   }
 

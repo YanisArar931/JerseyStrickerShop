@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.services';
 
 @Component({
   selector: 'app-login',
@@ -11,36 +13,50 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 })
 export class Login {
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  // Méthode pour savoir si le champ est invalide
-  isFieldInvalid(field: string): boolean {
-    const control = this.loginForm.get(field);
-    return !!control && control.touched && control.invalid;
-  }
-
-  // Méthode pour récupérer le message d'erreur
-  getFieldError(field: string): string | null {
-    const control = this.loginForm.get(field);
-    if (!control || !control.errors) return null;
-
-    if (control.errors['required']) return 'Ce champ est requis';
-    if (control.errors['email']) return 'Email invalide';
-    if (control.errors['minlength'])
-      return `Minimum ${control.errors['minlength'].requiredLength} caractères`;
-
-    return null;
-  }
+  loading = signal(false);
+  error = signal('');
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Form submitted', this.loginForm.value);
-    } else {
-      console.log('Form invalide');
+      this.loading.set(true);
+      this.error.set('');
+
+      const { email, password } = this.loginForm.value;
+
+      this.authService.login({ email, password }).subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.router.navigate(['/jersey']); // Redirection après login
+        },
+        error: (err) => {
+          this.loading.set(false);
+          this.error.set(err.message || 'Identifiants incorrects');
+        },
+      });
     }
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.loginForm.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.loginForm.get(fieldName);
+    if (field?.errors) {
+      if (field.errors['required']) return 'Ce champ est requis';
+      if (field.errors['email']) return "Format d'email invalide";
+      if (field.errors['minlength'])
+        return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
+    }
+    return '';
   }
 }
