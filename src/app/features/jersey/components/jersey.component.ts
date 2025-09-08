@@ -26,7 +26,7 @@ import { JerseyService } from '../services/jersey.service';
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
-        <!-- Liste des todos -->
+        <!-- Liste des maillots -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">JERSEY STRICKER</div>
       }
     </div>
@@ -40,10 +40,10 @@ export class JerseyListComponent implements OnInit {
   private jerseyService = inject(JerseyService);
 
   async ngOnInit() {
-    await this.loadTodos();
+    await this.loadJerseys();
   }
 
-  async loadTodos() {
+  async loadJerseys() {
     try {
       this.loading.set(true);
       const jerseys = await this.jerseyService.getAllJersey();

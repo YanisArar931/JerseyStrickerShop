@@ -16,8 +16,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./features/jersey/jersey.routes').then((m) => m.JERSEY_ROUTES),
   },
-  /*   {
-      path: 'admin',
-      loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
-    }, */
+  {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+  },
 ];
