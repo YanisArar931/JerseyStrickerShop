@@ -17,6 +17,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/jersey/jersey.routes').then((m) => m.JERSEY_ROUTES),
   },
   {
+    path: 'panier',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/panier/panier.routes').then((m) => m.PANIER_ROUTES),
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },

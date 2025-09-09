@@ -28,6 +28,13 @@ import { AuthService } from '../../../features/auth/services/auth.services';
                   </a>
                 </li>
               }
+              @if (currentUser()?.role === 'user') {
+                <li>
+                  <a routerLink="/panier" class="hover:text-green-600">
+                    <img src="assets/icon/panier.png" alt="Panier" class="h-8 w-8" />
+                  </a>
+                </li>
+              }
               <li>
                 <button (click)="logout()" class="hover:text-green-600">
                   <img src="assets/icon/logout.png" alt="Logout" class="h-8 w-8" />
