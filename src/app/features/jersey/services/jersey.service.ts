@@ -17,7 +17,7 @@ export class JerseyService {
     { id: 7, team: 'OL', name: 'Domicile', price: 80, image: 'assets/icon/oldom.webp' },
     { id: 8, team: 'OL', name: 'Extérieur', price: 80, image: 'assets/icon/olext.webp' },
 
-    { id: 9, team: 'LOSC', name: 'Domicile', price: 80, image: 'assets/icon/loscdom.avif' },
+    { id: 9, team: 'LOSC', name: 'Domicile', price: 80, image: 'assets/icon/loscdom.webp' },
     { id: 10, team: 'LOSC', name: 'Extérieur', price: 80, image: 'assets/icon/loscext.jpg' },
     { id: 11, team: 'LOSC', name: 'Third', price: 80, image: 'assets/icon/loscthird.png' },
 

@@ -23,67 +23,108 @@ interface Championnat {
     <div class="max-w-5xl mx-auto">
       <br />
 
+      <!-- Overlay pour maillot sélectionné -->
+      <div
+        *ngIf="selectedJersey()"
+        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+        (click)="selectedJersey.set(null)"
+        tabindex="0"
+        (keyup.escape)="selectedJersey.set(null)"
+      >
+        <!-- Contenu du modal -->
+        <div
+          class="bg-white p-4 rounded-lg max-w-lg"
+          (click)="$event.stopPropagation()"
+          tabindex="0"
+          (keyup.enter)="$event.stopPropagation()"
+        >
+          <img
+            [src]="selectedJersey()?.image"
+            [alt]="selectedJersey()?.name"
+            class="w-full h-auto object-contain"
+          />
+          <h2 class="mt-2 text-center font-semibold">{{ selectedJersey()?.name }}</h2>
+          <p class="text-center text-gray-500">
+            {{ selectedJersey()?.price | currency: 'EUR' }}
+          </p>
+
+          <!-- Sélection de la taille -->
+          <select [(ngModel)]="selectedSize" class="mt-4 w-full border rounded-lg p-2">
+            <option value="" disabled selected>Choisir la taille</option>
+            <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
+          </select>
+
+          <!-- Bouton Ajouter au panier -->
+          <button
+            class="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
+            [disabled]="!selectedSize"
+            (click)="addToCart(selectedJersey())"
+          >
+            Ajouter au panier
+          </button>
+        </div>
+      </div>
+
       <!-- Championnats -->
       <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <div class="flex justify-center flex-wrap space-x-10">
-          @for (champ of championnats; track champ.logo) {
-            <div
-              class="flex flex-col items-center cursor-pointer transform transition-transform duration-300 hover:scale-150 focus:outline-none"
-              [class.scale-150]="selectedChamp() === champ"
-              (click)="selectChamp(champ)"
-              tabindex="0"
-              role="button"
-            >
-              <img
-                [src]="champ.logo"
-                [alt]="champ.name || 'Championnat'"
-                class="h-16 w-16 object-contain"
-              />
-            </div>
-          }
+        <div class="flex justify-center flex-wrap gap-10">
+          <div
+            *ngFor="let champ of championnats; trackBy: trackByLogo"
+            class="flex flex-col items-center cursor-pointer transform transition-transform duration-300 hover:scale-150 focus:outline-none"
+            [class.scale-150]="selectedChamp() === champ"
+            (click)="selectChamp(champ)"
+            (keyup.enter)="selectChamp(champ)"
+            tabindex="0"
+            role="button"
+          >
+            <img
+              [src]="champ.logo"
+              [alt]="champ.name || 'Championnat'"
+              class="h-16 w-16 object-contain"
+            />
+          </div>
         </div>
       </div>
 
       <!-- Clubs -->
-      @if (selectedChamp()) {
-        <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
-          <div class="flex flex-wrap justify-center gap-x-10 gap-y-6">
-            @for (club of selectedChamp()?.clubs; track club.logo) {
-              <div
-                class="flex flex-col items-center cursor-pointer transform transition-transform duration-300 hover:scale-125 focus:outline-none"
-                [class.scale-125]="selectedClub() === club"
-                (click)="selectClub(club)"
-                tabindex="0"
-                role="button"
-              >
-                <img [src]="club.logo" [alt]="club.name" class="h-16 w-16 object-contain" />
-              </div>
-            }
+      <div *ngIf="selectedChamp()" class="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
+        <div class="flex flex-wrap justify-center gap-10">
+          <div
+            *ngFor="let club of selectedChamp()?.clubs; trackBy: trackByLogo"
+            class="flex flex-col items-center cursor-pointer transform transition-transform duration-300 hover:scale-125 focus:outline-none"
+            [class.scale-125]="selectedClub() === club"
+            (click)="selectClub(club)"
+            (keyup.enter)="selectClub(club)"
+            tabindex="0"
+            role="button"
+          >
+            <img [src]="club.logo" [alt]="club.name" class="h-16 w-16 object-contain" />
           </div>
         </div>
-      }
+      </div>
 
       <!-- Maillots du club sélectionné -->
-      @if (selectedClub()) {
-        <div class="bg-white p-6 rounded-lg shadow-md">
+      <div *ngIf="selectedClub()" class="bg-white p-6 rounded-lg shadow-md">
+        <div
+          class="grid gap-6 justify-center"
+          style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));"
+        >
           <div
-            class="grid gap-6 justify-center"
-            style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));"
+            *ngFor="let jersey of filteredJerseys(); trackBy: trackById"
+            class="flex flex-col items-center p-2 border rounded-lg hover:shadow-lg transition cursor-pointer"
+            tabindex="0"
+            role="button"
+            (click)="selectJersey(jersey)"
+            (keyup.enter)="selectJersey(jersey)"
           >
-            @for (jersey of filteredJerseys(); track jersey.id) {
-              <div
-                class="flex flex-col items-center p-2 border rounded-lg hover:shadow-lg transition"
-              >
-                <img [src]="jersey.image" [alt]="jersey.name" class="h-24 w-24 object-contain" />
-                <span class="mt-2 text-sm text-gray-700 text-center">{{ jersey.name }}</span>
-                <span class="mt-1 text-sm font-medium text-gray-500">
-                  {{ jersey.price | currency: 'EUR' }}
-                </span>
-              </div>
-            }
+            <img [src]="jersey.image" [alt]="jersey.name" class="h-24 w-24 object-contain" />
+            <span class="mt-2 text-sm text-gray-700 text-center">{{ jersey.name }}</span>
+            <span class="mt-1 text-sm font-medium text-gray-500">
+              {{ jersey.price | currency: 'EUR' }}
+            </span>
           </div>
         </div>
-      }
+      </div>
     </div>
   `,
   styles: [],
@@ -93,6 +134,11 @@ export class JerseyListComponent implements OnInit {
   loading = signal(true);
   selectedChamp = signal<Championnat | null>(null);
   selectedClub = signal<Club | null>(null);
+  selectedJersey = signal<Jersey | null>(null);
+
+  // Pour la taille sélectionnée
+  selectedSize: string | null = null;
+  sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
   private jerseyService = inject(JerseyService);
 
@@ -114,21 +160,42 @@ export class JerseyListComponent implements OnInit {
 
   selectChamp(champ: Championnat) {
     this.selectedChamp.set(champ);
-    this.selectedClub.set(null); // reset club quand on change de championnat
+    this.selectedClub.set(null);
+    this.selectedJersey.set(null);
+    this.selectedSize = null;
   }
 
   selectClub(club: Club) {
     this.selectedClub.set(club);
+    this.selectedJersey.set(null);
+    this.selectedSize = null;
   }
 
-  // Filtrer les maillots pour le club sélectionné
+  selectJersey(jersey: Jersey) {
+    this.selectedJersey.set(jersey);
+    this.selectedSize = null;
+  }
+
   filteredJerseys(): Jersey[] {
     const club = this.selectedClub();
     if (!club) return [];
     return this.jerseys().filter((j) => j.team === club.name);
   }
 
-  // Liste des championnats + clubs
+  addToCart(jersey: Jersey | null) {
+    if (!jersey || !this.selectedSize) return;
+    console.log('Ajout au panier :', jersey, 'Taille :', this.selectedSize);
+    alert(`"${jersey.name}" (Taille: ${this.selectedSize}) a été ajouté au panier !`);
+  }
+
+  trackByLogo(index: number, item: { logo: string }) {
+    return item.logo;
+  }
+
+  trackById(index: number, item: { id: number }) {
+    return item.id;
+  }
+
   championnats: Championnat[] = [
     {
       name: 'Ligue 1',
