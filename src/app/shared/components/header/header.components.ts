@@ -7,20 +7,43 @@ import { AuthService } from '../../../features/auth/services/auth.services';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <header class="bg-blue-600 text-white p-4">
+    <header class="bg-white border-b-4 border-green-600 p-4">
       <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold">Jersey Stricker Shop</h1>
+        <!-- Logo -->
+        <img src="assets/icon/logojss.png" alt="JSS" class="h-16 w-18" />
+
+        <!-- Navigation -->
         <nav>
           <ul class="flex space-x-4">
             @if (currentUser()) {
-              <li><a routerLink="/jersey" class="hover:text-blue-200">Jersey</a></li>
+              <li>
+                <a routerLink="/jersey" class="hover:text-green-600">
+                  <img src="assets/icon/iconjersey.png" alt="Jersey" class="h-8 w-8" />
+                </a>
+              </li>
               @if (currentUser()?.role === 'admin') {
-                <li><a routerLink="/admin" class="hover:text-blue-200">Admin</a></li>
+                <li>
+                  <a routerLink="/admin" class="hover:text-green-600">
+                    <img src="assets/icon/iconadmin.png" alt="Admin" class="h-8 w-8" />
+                  </a>
+                </li>
               }
-              <li><button (click)="logout()" class="hover:text-blue-200">Logout</button></li>
+              <li>
+                <button (click)="logout()" class="hover:text-green-600">
+                  <img src="assets/icon/logout.png" alt="Logout" class="h-8 w-8" />
+                </button>
+              </li>
             } @else {
-              <li><a routerLink="/auth/login" class="hover:text-blue-200">Login</a></li>
-              <li><a routerLink="/auth/register" class="hover:text-blue-200">Register</a></li>
+              <li>
+                <a routerLink="/auth/login" class="hover:text-green-600">
+                  <img src="assets/icon/login.png" alt="Login" class="h-8 w-8" />
+                </a>
+              </li>
+              <li>
+                <a routerLink="/auth/register" class="hover:text-green-600">
+                  <img src="assets/icon/register.svg" alt="Register" class="h-8 w-8" />
+                </a>
+              </li>
             }
           </ul>
         </nav>
