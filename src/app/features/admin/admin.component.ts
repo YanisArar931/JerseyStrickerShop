@@ -20,18 +20,18 @@ import { FormsModule } from '@angular/forms';
       <div class="flex space-x-4 mb-6">
         <button
           (click)="activeTab.set('users')"
-          [class.bg-blue-600]="activeTab() === 'users'"
+          [class.bg-green-600]="activeTab() === 'users'"
           [class.text-white]="activeTab() === 'users'"
-          class="px-4 py-2 rounded font-medium hover:bg-blue-700"
+          class="px-4 py-2 rounded font-medium hover:bg-green-700"
         >
           Utilisateurs
         </button>
 
         <button
           (click)="activeTab.set('jerseys')"
-          [class.bg-blue-600]="activeTab() === 'jerseys'"
+          [class.bg-green-600]="activeTab() === 'jerseys'"
           [class.text-white]="activeTab() === 'jerseys'"
-          class="px-4 py-2 rounded font-medium hover:bg-blue-700"
+          class="px-4 py-2 rounded font-medium hover:bg-green-700"
         >
           Maillots
         </button>

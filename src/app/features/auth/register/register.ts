@@ -41,7 +41,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               id="name"
               type="text"
               formControlName="name"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
               [class.border-red-500]="isFieldInvalid('name')"
             />
             @if (isFieldInvalid('name')) {
@@ -56,7 +56,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               id="firstname"
               type="text"
               formControlName="firstname"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
               [class.border-red-500]="isFieldInvalid('firstname')"
             />
             @if (isFieldInvalid('firstname')) {
@@ -73,7 +73,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               id="email"
               type="email"
               formControlName="email"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
               [class.border-red-500]="isFieldInvalid('email')"
             />
             @if (isFieldInvalid('email')) {
@@ -90,7 +90,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               id="password"
               type="password"
               formControlName="password"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
               [class.border-red-500]="isFieldInvalid('password')"
             />
             @if (isFieldInvalid('password')) {
@@ -107,7 +107,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               id="confirmPassword"
               type="password"
               formControlName="confirmPassword"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
               [class.border-red-500]="isFieldInvalid('confirmPassword')"
             />
             @if (isFieldInvalid('confirmPassword')) {
@@ -120,7 +120,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
             <button
               type="submit"
               [disabled]="registerForm.invalid || loading()"
-              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
             >
               @if (loading()) {
                 <span
