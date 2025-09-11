@@ -14,6 +14,7 @@ export class AuthService {
     {
       id: 1,
       name: 'Admin User',
+      pseudo: 'Boss',
       email: 'admin@example.com',
       password: 'admin123',
       role: 'admin',
@@ -22,6 +23,7 @@ export class AuthService {
     {
       id: 2,
       name: 'YanisTest',
+      pseudo: 'first user yanistest',
       email: 'yanistest@example.com',
       password: 'motdepasse',
       role: 'user',
@@ -66,6 +68,7 @@ export class AuthService {
     const newUser: User = {
       id: this.users.length + 1,
       name: userData.name,
+      pseudo: userData.pseudo,
       email: userData.email,
       password: userData.password,
       role: 'user',

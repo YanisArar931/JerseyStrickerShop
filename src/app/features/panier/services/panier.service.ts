@@ -1,42 +1,44 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 import { Jersey } from '../../auth/models/jersey.model';
-
-export interface PanierItem {
-  jersey: Jersey;
-  size: string;
-  quantity: number;
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class PanierService {
-  private items = signal<PanierItem[]>([]);
+  private readonly STORAGE_KEY = 'panier';
 
-  get panierItems() {
-    return this.items.asReadonly();
+  // Signal qui contient le panier
+  private _panierItems = signal<{ jersey: Jersey; size: string }[]>(this.loadFromStorage());
+
+  //Getter pour accéder au panier depuis le composant
+  panierItems = this._panierItems.asReadonly();
+
+  constructor() {
+    // Chaque changement du panier → sauvegarde dans localStorage
+    effect(() => {
+      this.saveToStorage(this._panierItems());
+    });
   }
 
   addToPanier(jersey: Jersey, size: string) {
-    const existing = this.items().find(
-      (item) => item.jersey.id === jersey.id && item.size === size,
-    );
-
-    if (existing) {
-      existing.quantity++;
-      this.items.set([...this.items()]);
-    } else {
-      this.items.set([...this.items(), { jersey, size, quantity: 1 }]);
-    }
+    this._panierItems.update((current) => [...current, { jersey, size }]);
   }
 
   removeFromPanier(index: number) {
-    const updated = [...this.items()];
-    updated.splice(index, 1);
-    this.items.set(updated);
+    this._panierItems.update((current) => current.filter((_, i) => i !== index));
   }
 
   clearPanier() {
-    this.items.set([]);
+    this._panierItems.set([]);
+  }
+
+  //Sauvegarde localStorage
+  private saveToStorage(items: { jersey: Jersey; size: string }[]) {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
+  }
+
+  private loadFromStorage(): { jersey: Jersey; size: string }[] {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   }
 }

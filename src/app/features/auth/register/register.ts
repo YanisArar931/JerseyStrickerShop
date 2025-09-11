@@ -64,6 +64,21 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
             }
           </div>
 
+          <!-- Pseudo -->
+          <div>
+            <label for="pseudo" class="block text-sm font-medium text-gray-700"> Pseudo </label>
+            <input
+              id="pseudo"
+              type="text"
+              formControlName="pseudo"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+              [class.border-red-500]="isFieldInvalid('pseudo')"
+            />
+            @if (isFieldInvalid('pseudo')) {
+              <p class="mt-1 text-sm text-red-600">{{ getFieldError('pseudo') }}</p>
+            }
+          </div>
+
           <!-- Email -->
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">

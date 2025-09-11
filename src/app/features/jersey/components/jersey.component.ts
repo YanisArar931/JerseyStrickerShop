@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Jersey } from '../../auth/models/jersey.model';
 import { JerseyService } from '../services/jersey.service';
 import { PanierService } from '../../panier/services/panier.service';
+import { AuthService } from '../../auth/services/auth.services';
 
 interface Club {
   name: string;
@@ -65,6 +66,8 @@ interface Championnat {
           </button>
         </div>
       </div>
+
+      <div class="text-lg font-semibold mb-4">Bienvenu {{ currentUser?.pseudo }}</div>
 
       <!-- Championnats -->
       <div class="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -131,6 +134,7 @@ interface Championnat {
   styles: [],
 })
 export class JerseyListComponent implements OnInit {
+  private authService = inject(AuthService);
   jerseys = signal<Jersey[]>([]);
   loading = signal(true);
   selectedChamp = signal<Championnat | null>(null);
@@ -203,6 +207,10 @@ export class JerseyListComponent implements OnInit {
     this.panierService.addToPanier(jersey, this.selectedSize);
     alert(`"${jersey.name}" (Taille: ${this.selectedSize}) a été ajouté au panier !`);
     this.selectedJersey.set(null);
+  }
+
+  get currentUser() {
+    return this.authService.getCurrentUser();
   }
 
   championnats: Championnat[] = [

@@ -27,7 +27,7 @@ import { PanierService } from '../../panier/services/panier.service';
         <div class="flex-1">
           <h3 class="font-semibold">{{ item.jersey.name }}</h3>
           <p class="text-sm text-gray-500">Taille: {{ item.size }}</p>
-          <p class="text-sm text-gray-500">Quantité: {{ item.quantity }}</p>
+          <!-- <p class="text-sm text-gray-500">Quantité: {{ item.quantity }}</p> -->
           <p class="text-sm font-medium">
             {{ item.jersey.price | currency: 'EUR' }}
           </p>
