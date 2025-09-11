@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Jersey } from '../../auth/models/jersey.model';
 import { JerseyService } from '../services/jersey.service';
+import { PanierService } from '../../panier/services/panier.service';
 
 interface Club {
   name: string;
@@ -58,7 +59,7 @@ interface Championnat {
           <button
             class="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
             [disabled]="!selectedSize"
-            (click)="addToCart(selectedJersey())"
+            (click)="addToPanier(selectedJersey())"
           >
             Ajouter au panier
           </button>
@@ -135,6 +136,7 @@ export class JerseyListComponent implements OnInit {
   selectedChamp = signal<Championnat | null>(null);
   selectedClub = signal<Club | null>(null);
   selectedJersey = signal<Jersey | null>(null);
+  private panierService = inject(PanierService);
 
   // Pour la taille sélectionnée
   selectedSize: string | null = null;
@@ -196,6 +198,13 @@ export class JerseyListComponent implements OnInit {
     return item.id;
   }
 
+  addToPanier(jersey: Jersey | null) {
+    if (!jersey || !this.selectedSize) return;
+    this.panierService.addToPanier(jersey, this.selectedSize);
+    alert(`"${jersey.name}" (Taille: ${this.selectedSize}) a été ajouté au panier !`);
+    this.selectedJersey.set(null);
+  }
+
   championnats: Championnat[] = [
     {
       name: 'Ligue 1',
@@ -253,9 +262,9 @@ export class JerseyListComponent implements OnInit {
       name: 'Autres',
       logo: 'assets/icon/goat.png',
       clubs: [
-        { name: 'Al Nassr', logo: 'assets/icon/alnassr.png' },
-        { name: 'Inter Miami', logo: 'assets/icon/intermiami.png' },
         { name: 'Santos', logo: 'assets/icon/santos.png' },
+        { name: 'Inter Miami', logo: 'assets/icon/intermiami.png' },
+        { name: 'Al Nassr', logo: 'assets/icon/alnassr.png' },
       ],
     },
   ];

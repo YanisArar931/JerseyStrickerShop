@@ -24,6 +24,33 @@ export class JerseyService {
     { id: 12, team: 'ASM', name: 'Domicile', price: 80, image: 'assets/icon/asmdom.jpg' },
     { id: 13, team: 'ASM', name: 'Extérieur', price: 80, image: 'assets/icon/asmext.jpg' },
     { id: 14, team: 'ASM', name: 'Third', price: 80, image: 'assets/icon/asmthird.jpg' },
+
+    {
+      id: 15,
+      team: 'Inter Miami',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/intermiamidom.avif',
+    },
+    {
+      id: 16,
+      team: 'Inter Miami',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/intermiamiext.avif',
+    },
+    {
+      id: 17,
+      team: 'Inter Miami',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/intermiamithird.avif',
+    },
+
+    { id: 18, team: 'Santos', name: 'Domicile', price: 80, image: 'assets/icon/santosdom.jpg' },
+    { id: 19, team: 'Santos', name: 'Extérieur', price: 80, image: 'assets/icon/santosext.jpg' },
+
+    { id: 20, team: 'Al Nassr', name: 'Domicile', price: 80, image: 'assets/icon/alnassrdom.webp' },
   ]);
 
   private delay(ms: number): Promise<void> {
