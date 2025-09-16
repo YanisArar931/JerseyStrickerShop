@@ -45,7 +45,6 @@ import { FormsModule } from '@angular/forms';
               <thead>
                 <tr>
                   <th>Nom</th>
-                  <th>Pseudo</th>
                   <th>Email</th>
                   <th>Rôle</th>
                   <th>Actions</th>
@@ -55,7 +54,6 @@ import { FormsModule } from '@angular/forms';
                 @for (user of users(); track user.id) {
                   <tr>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.pseudo }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
                     <td>

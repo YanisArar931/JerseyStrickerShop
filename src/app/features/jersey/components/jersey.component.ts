@@ -67,10 +67,11 @@ interface Championnat {
         </div>
       </div>
 
-      <div class="text-lg font-semibold mb-4">Bienvenu {{ currentUser?.pseudo }}</div>
+      <div class="text-lg mb-4 text-right">Bienvenu {{ currentUser?.name }}</div>
 
       <!-- Championnats -->
       <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <div class="text-lg font-semibold mb-4">Choisissez un championnats</div>
         <div class="flex justify-center flex-wrap gap-10">
           <div
             *ngFor="let champ of championnats; trackBy: trackByLogo"
@@ -84,7 +85,7 @@ interface Championnat {
             <img
               [src]="champ.logo"
               [alt]="champ.name || 'Championnat'"
-              class="h-16 w-16 object-contain"
+              class="h-12 w-12 sm:h-16 sm:w-16 object-contain"
             />
           </div>
         </div>
@@ -92,6 +93,7 @@ interface Championnat {
 
       <!-- Clubs -->
       <div *ngIf="selectedChamp()" class="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
+        <div class="text-lg font-semibold mb-4">Choisissez un club</div>
         <div class="flex flex-wrap justify-center gap-10">
           <div
             *ngFor="let club of selectedChamp()?.clubs; trackBy: trackByLogo"
@@ -102,7 +104,11 @@ interface Championnat {
             tabindex="0"
             role="button"
           >
-            <img [src]="club.logo" [alt]="club.name" class="h-16 w-16 object-contain" />
+            <img
+              [src]="club.logo"
+              [alt]="club.name || 'Championnat'"
+              class="h-12 w-12 sm:h-16 sm:w-16 object-contain"
+            />
           </div>
         </div>
       </div>
@@ -110,7 +116,7 @@ interface Championnat {
       <!-- Maillots du club sélectionné -->
       <div *ngIf="selectedClub()" class="bg-white p-6 rounded-lg shadow-md">
         <div
-          class="grid gap-6 justify-center"
+          class="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
           style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));"
         >
           <div
@@ -259,7 +265,7 @@ export class JerseyListComponent implements OnInit {
       name: 'Serie A',
       logo: 'assets/icon/seriea.png',
       clubs: [
-        { name: 'Juve', logo: 'assets/icon/juve.png' },
+        { name: 'Juventus', logo: 'assets/icon/juve.png' },
         { name: 'AC Milan', logo: 'assets/icon/acmilan.png' },
         { name: 'Inter Milan', logo: 'assets/icon/intermilan.png' },
         { name: 'AS Rome', logo: 'assets/icon/asrome.svg' },

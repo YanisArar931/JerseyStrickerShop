@@ -1,7 +1,6 @@
 export interface User {
   id: number;
   name: string;
-  pseudo: string;
   email: string;
   password: string;
   role: 'user' | 'admin';
@@ -16,7 +15,6 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string;
   name: string;
-  pseudo: string;
   password: string;
   confirmPassword: string;
 }
