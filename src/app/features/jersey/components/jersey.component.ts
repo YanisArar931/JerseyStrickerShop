@@ -35,7 +35,7 @@ interface Championnat {
       >
         <!-- Contenu du modal -->
         <div
-          class="bg-white p-4 rounded-lg max-w-lg"
+          class="bg-white p-4 rounded-lg max-w-lg w-11/12 sm:w-full max-h-screen overflow-y-auto"
           (click)="$event.stopPropagation()"
           tabindex="0"
           (keyup.enter)="$event.stopPropagation()"
@@ -43,18 +43,27 @@ interface Championnat {
           <img
             [src]="selectedJersey()?.image"
             [alt]="selectedJersey()?.name"
-            class="w-full h-auto object-contain"
+            class="w-full h-auto object-contain max-h-[300px] sm:max-h-[400px]"
           />
-          <h2 class="mt-2 text-center font-semibold">{{ selectedJersey()?.name }}</h2>
+          <h2 class="mt-2 text-center font-semibold">
+            {{ selectedJersey()?.name }}
+          </h2>
           <p class="text-center text-gray-500">
             {{ selectedJersey()?.price | currency: 'EUR' }}
           </p>
 
           <!-- Sélection de la taille -->
-          <select [(ngModel)]="selectedSize" class="mt-4 w-full border rounded-lg p-2">
-            <option value="" disabled selected>Choisir la taille</option>
-            <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
-          </select>
+          <div class="flex justify-center flex-wrap gap-2 mt-4">
+            <button
+              *ngFor="let size of ['XS', 'S', 'M', 'L', 'XL']"
+              (click)="selectedSize = size"
+              [class.bg-green-600]="selectedSize === size"
+              [class.text-white]="selectedSize === size"
+              class="px-3 py-1 border rounded-lg hover:bg-green-100 transition text-sm sm:text-base"
+            >
+              {{ size }}
+            </button>
+          </div>
 
           <!-- Bouton Ajouter au panier -->
           <button
@@ -117,17 +126,22 @@ interface Championnat {
       <div *ngIf="selectedClub()" class="bg-white p-6 rounded-lg shadow-md">
         <div
           class="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-          style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));"
+          style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));"
         >
           <div
             *ngFor="let jersey of filteredJerseys(); trackBy: trackById"
-            class="flex flex-col items-center p-2 border rounded-lg hover:shadow-lg transition cursor-pointer"
+            class="flex flex-col items-center p-2 border rounded-lg hover:shadow-lg transition cursor-pointer transform duration-300"
             tabindex="0"
             role="button"
             (click)="selectJersey(jersey)"
             (keyup.enter)="selectJersey(jersey)"
+            [class.scale-90]="selectedJersey()?.id === jersey.id"
           >
-            <img [src]="jersey.image" [alt]="jersey.name" class="h-24 w-24 object-contain" />
+            <img
+              [src]="jersey.image"
+              [alt]="jersey.name"
+              class="h-24 w-24 object-contain sm:h-28 sm:w-28 lg:h-32 lg:w-32"
+            />
             <span class="mt-2 text-sm text-gray-700 text-center">{{ jersey.name }}</span>
             <span class="mt-1 text-sm font-medium text-gray-500">
               {{ jersey.price | currency: 'EUR' }}
@@ -150,7 +164,6 @@ export class JerseyListComponent implements OnInit {
 
   // Pour la taille sélectionnée
   selectedSize: string | null = null;
-  sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
   private jerseyService = inject(JerseyService);
 
