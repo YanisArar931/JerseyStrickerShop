@@ -42,30 +42,46 @@ import { FormsModule } from '@angular/forms';
         <div class="bg-white shadow rounded-lg p-6">
           @if (users().length > 0) {
             <table class="min-w-full divide-y divide-gray-200">
-              <thead>
+              <thead class="bg-gray-100">
                 <tr>
-                  <th>Nom</th>
-                  <th>Email</th>
-                  <th>Rôle</th>
-                  <th>Actions</th>
+                  <th
+                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                  >
+                    Nom
+                  </th>
+                  <th
+                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                  >
+                    Rôle
+                  </th>
+                  <th
+                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                  >
+                    Actions
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="divide-y divide-gray-200">
                 @for (user of users(); track user.id) {
-                  <tr>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.role }}</td>
-                    <td>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user.name }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">{{ user.email }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ user.role }}</td>
+                    <td class="px-6 py-4 text-sm">
                       @if (user.role !== 'admin') {
                         <button
                           (click)="deleteUser(user.id)"
-                          class="text-red-600 hover:text-red-900"
+                          class="text-red-600 hover:text-red-900 font-medium"
                         >
                           Supprimer
                         </button>
                       } @else {
-                        <span class="text-gray-400">Admin protégé</span>
+                        <span class="text-gray-400 italic">Admin protégé</span>
                       }
                     </td>
                   </tr>
@@ -73,7 +89,7 @@ import { FormsModule } from '@angular/forms';
               </tbody>
             </table>
           } @else {
-            <p>Aucun utilisateur trouvé</p>
+            <p class="text-gray-500 text-sm">Aucun utilisateur trouvé</p>
           }
         </div>
       }
@@ -83,33 +99,51 @@ import { FormsModule } from '@angular/forms';
         <div class="bg-white shadow rounded-lg p-6">
           @if (maillots().length > 0) {
             <table class="min-w-full divide-y divide-gray-200">
-              <thead>
+              <thead class="bg-gray-100">
                 <tr>
-                  <th>Équipe</th>
-                  <th>Prix</th>
-                  <th>Stock</th>
-                  <th>Actions</th>
+                  <th
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Équipe
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Type
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Prix
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Stock
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="divide-y divide-gray-200">
                 @for (jersey of maillots(); track jersey.id) {
-                  <tr>
-                    <td>{{ jersey.team }}</td>
-                    <td>{{ jersey.price }}</td>
-                    <!--                     <td>
-                      <input type="number" [(ngModel)]="jersey.stock" class="border px-2 rounded w-20" />
-                    </td>
-                    <td>
-                      <button (click)="updateStock(jersey)" class="text-blue-600 hover:text-blue-900">
-                        Mettre à jour
-                      </button>
-                    </td> -->
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ jersey.team }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ jersey.name }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.price }} €</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.stock }}</td>
+                    <!-- <td class="px-6 py-4 text-sm">
+                  Supprimer
+              </td> -->
                   </tr>
                 }
               </tbody>
             </table>
           } @else {
-            <p>Aucun maillot trouvé</p>
+            <p class="text-gray-500 text-sm">Aucun maillot trouvé</p>
           }
         </div>
       }

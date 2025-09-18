@@ -6,24 +6,101 @@ import { Jersey } from '../../auth/models/jersey.model';
 })
 export class JerseyService {
   private jersey = signal<Jersey[]>([
-    { id: 1, team: 'PSG', name: 'Domicile', price: 80, image: 'assets/icon/psgdom.webp' },
-    { id: 2, team: 'PSG', name: 'Extérieur', price: 80, image: 'assets/icon/psgext.jpg' },
-    { id: 3, team: 'PSG', name: 'Third', price: 80, image: 'assets/icon/psgthird.webp' },
+    {
+      id: 1,
+      team: 'PSG',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/psgdom.webp',
+      stock: 100,
+    },
+    {
+      id: 2,
+      team: 'PSG',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/psgext.jpg',
+      stock: 100,
+    },
+    {
+      id: 3,
+      team: 'PSG',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/psgthird.webp',
+      stock: 100,
+    },
 
-    { id: 4, team: 'OM', name: 'Domicile', price: 80, image: 'assets/icon/omdom.webp' },
-    { id: 5, team: 'OM', name: 'Extérieur', price: 80, image: 'assets/icon/omext.avif' },
-    { id: 6, team: 'OM', name: 'Third', price: 80, image: 'assets/icon/omthird.jpg' },
+    { id: 4, team: 'OM', name: 'Domicile', price: 80, image: 'assets/icon/omdom.webp', stock: 100 },
+    {
+      id: 5,
+      team: 'OM',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/omext.avif',
+      stock: 100,
+    },
+    { id: 6, team: 'OM', name: 'Third', price: 80, image: 'assets/icon/omthird.jpg', stock: 100 },
 
-    { id: 7, team: 'OL', name: 'Domicile', price: 80, image: 'assets/icon/oldom.webp' },
-    { id: 8, team: 'OL', name: 'Extérieur', price: 80, image: 'assets/icon/olext.webp' },
+    { id: 7, team: 'OL', name: 'Domicile', price: 80, image: 'assets/icon/oldom.webp', stock: 100 },
+    {
+      id: 8,
+      team: 'OL',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/olext.webp',
+      stock: 100,
+    },
 
-    { id: 9, team: 'LOSC', name: 'Domicile', price: 80, image: 'assets/icon/loscdom.webp' },
-    { id: 10, team: 'LOSC', name: 'Extérieur', price: 80, image: 'assets/icon/loscext.jpg' },
-    { id: 11, team: 'LOSC', name: 'Third', price: 80, image: 'assets/icon/loscthird.png' },
+    {
+      id: 9,
+      team: 'LOSC',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/loscdom.webp',
+      stock: 100,
+    },
+    {
+      id: 10,
+      team: 'LOSC',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/loscext.jpg',
+      stock: 100,
+    },
+    {
+      id: 11,
+      team: 'LOSC',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/loscthird.png',
+      stock: 100,
+    },
 
-    { id: 12, team: 'ASM', name: 'Domicile', price: 80, image: 'assets/icon/asmdom.jpg' },
-    { id: 13, team: 'ASM', name: 'Extérieur', price: 80, image: 'assets/icon/asmext.jpg' },
-    { id: 14, team: 'ASM', name: 'Third', price: 80, image: 'assets/icon/asmthird.jpg' },
+    {
+      id: 12,
+      team: 'ASM',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/asmdom.jpg',
+      stock: 100,
+    },
+    {
+      id: 13,
+      team: 'ASM',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/asmext.jpg',
+      stock: 100,
+    },
+    {
+      id: 14,
+      team: 'ASM',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/asmthird.jpg',
+      stock: 100,
+    },
 
     {
       id: 15,
@@ -31,6 +108,7 @@ export class JerseyService {
       name: 'Domicile',
       price: 80,
       image: 'assets/icon/intermiamidom.avif',
+      stock: 100,
     },
     {
       id: 16,
@@ -38,6 +116,7 @@ export class JerseyService {
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/intermiamiext.avif',
+      stock: 100,
     },
     {
       id: 17,
@@ -45,12 +124,34 @@ export class JerseyService {
       name: 'Third',
       price: 80,
       image: 'assets/icon/intermiamithird.avif',
+      stock: 100,
     },
 
-    { id: 18, team: 'Santos', name: 'Domicile', price: 80, image: 'assets/icon/santosdom.jpg' },
-    { id: 19, team: 'Santos', name: 'Extérieur', price: 80, image: 'assets/icon/santosext.jpg' },
+    {
+      id: 18,
+      team: 'Santos',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/santosdom.jpg',
+      stock: 100,
+    },
+    {
+      id: 19,
+      team: 'Santos',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/santosext.jpg',
+      stock: 100,
+    },
 
-    { id: 20, team: 'Al Nassr', name: 'Domicile', price: 80, image: 'assets/icon/alnassrdom.webp' },
+    {
+      id: 20,
+      team: 'Al Nassr',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/alnassrdom.webp',
+      stock: 100,
+    },
 
     {
       id: 21,
@@ -58,6 +159,7 @@ export class JerseyService {
       name: 'Domicile',
       price: 80,
       image: 'assets/icon/liverpooldom.jpg',
+      stock: 100,
     },
     {
       id: 22,
@@ -65,6 +167,7 @@ export class JerseyService {
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/liverpoolext.jpg',
+      stock: 100,
     },
     {
       id: 23,
@@ -72,37 +175,158 @@ export class JerseyService {
       name: 'Third',
       price: 80,
       image: 'assets/icon/liverpoolthird.jpg',
+      stock: 100,
     },
 
-    { id: 24, team: 'Arsenal', name: 'Domicile', price: 80, image: 'assets/icon/arsenaldom.jpg' },
-    { id: 25, team: 'Arsenal', name: 'Extérieur', price: 80, image: 'assets/icon/arsenalext.webp' },
-    { id: 26, team: 'Arsenal', name: 'Third', price: 80, image: 'assets/icon/arsenalthird.jpg' },
+    {
+      id: 24,
+      team: 'Arsenal',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/arsenaldom.jpg',
+      stock: 100,
+    },
+    {
+      id: 25,
+      team: 'Arsenal',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/arsenalext.webp',
+      stock: 100,
+    },
+    {
+      id: 26,
+      team: 'Arsenal',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/arsenalthird.jpg',
+      stock: 100,
+    },
 
-    { id: 27, team: 'Chelsea', name: 'Domicile', price: 80, image: 'assets/icon/chelseadom.jpg' },
-    { id: 28, team: 'Chelsea', name: 'Extérieur', price: 80, image: 'assets/icon/chelseaext.webp' },
-    { id: 29, team: 'Chelsea', name: 'Third', price: 80, image: 'assets/icon/chelseathird.jpg' },
+    {
+      id: 27,
+      team: 'Chelsea',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/chelseadom.jpg',
+      stock: 100,
+    },
+    {
+      id: 28,
+      team: 'Chelsea',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/chelseaext.webp',
+      stock: 100,
+    },
+    {
+      id: 29,
+      team: 'Chelsea',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/chelseathird.jpg',
+      stock: 100,
+    },
 
-    { id: 30, team: 'Man United', name: 'Domicile', price: 80, image: 'assets/icon/uniteddom.jpg' },
+    {
+      id: 30,
+      team: 'Man United',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/uniteddom.jpg',
+      stock: 100,
+    },
     {
       id: 31,
       team: 'Man United',
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/unitedext.jpg',
+      stock: 100,
     },
-    { id: 32, team: 'Man United', name: 'Third', price: 80, image: 'assets/icon/unitedthird.jpg' },
+    {
+      id: 32,
+      team: 'Man United',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/unitedthird.jpg',
+      stock: 100,
+    },
 
-    { id: 33, team: 'Man City', name: 'Domicile', price: 80, image: 'assets/icon/citydom.jpg' },
-    { id: 34, team: 'Man City', name: 'Extérieur', price: 80, image: 'assets/icon/cityext.jpg' },
-    { id: 35, team: 'Man City', name: 'Third', price: 80, image: 'assets/icon/citythird.jpg' },
+    {
+      id: 33,
+      team: 'Man City',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/citydom.jpg',
+      stock: 100,
+    },
+    {
+      id: 34,
+      team: 'Man City',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/cityext.jpg',
+      stock: 100,
+    },
+    {
+      id: 35,
+      team: 'Man City',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/citythird.jpg',
+      stock: 100,
+    },
 
-    { id: 36, team: 'Real Madrid', name: 'Domicile', price: 80, image: 'assets/icon/realdom.jpg' },
-    { id: 37, team: 'Real Madrid', name: 'Extérieur', price: 80, image: 'assets/icon/realext.jpg' },
-    { id: 38, team: 'Real Madrid', name: 'Third', price: 80, image: 'assets/icon/realthird.webp' },
+    {
+      id: 36,
+      team: 'Real Madrid',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/realdom.jpg',
+      stock: 100,
+    },
+    {
+      id: 37,
+      team: 'Real Madrid',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/realext.jpg',
+      stock: 100,
+    },
+    {
+      id: 38,
+      team: 'Real Madrid',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/realthird.webp',
+      stock: 100,
+    },
 
-    { id: 39, team: 'Barcelona', name: 'Domicile', price: 80, image: 'assets/icon/barcadom.jpg' },
-    { id: 40, team: 'Barcelona', name: 'Extérieur', price: 80, image: 'assets/icon/barcaext.jpg' },
-    { id: 41, team: 'Barcelona', name: 'Third', price: 80, image: 'assets/icon/barcathird.jpg' },
+    {
+      id: 39,
+      team: 'Barcelona',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/barcadom.jpg',
+      stock: 100,
+    },
+    {
+      id: 40,
+      team: 'Barcelona',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/barcaext.jpg',
+      stock: 100,
+    },
+    {
+      id: 41,
+      team: 'Barcelona',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/barcathird.jpg',
+      stock: 100,
+    },
 
     {
       id: 42,
@@ -110,6 +334,7 @@ export class JerseyService {
       name: 'Domicile',
       price: 80,
       image: 'assets/icon/athleticomadriddom.jpg',
+      stock: 100,
     },
     {
       id: 43,
@@ -117,6 +342,7 @@ export class JerseyService {
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/athleticomadridext.jpg',
+      stock: 100,
     },
     {
       id: 44,
@@ -124,14 +350,50 @@ export class JerseyService {
       name: 'Third',
       price: 80,
       image: 'assets/icon/athleticomadridthird.jpg',
+      stock: 100,
     },
 
-    { id: 45, team: 'Bayern', name: 'Domicile', price: 80, image: 'assets/icon/bayerndom.webp' },
-    { id: 46, team: 'Bayern', name: 'Extérieur', price: 80, image: 'assets/icon/bayernext.jpg' },
-    { id: 47, team: 'Bayern', name: 'Third', price: 80, image: 'assets/icon/bayernthird.jpg' },
+    {
+      id: 45,
+      team: 'Bayern',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/bayerndom.webp',
+      stock: 100,
+    },
+    {
+      id: 46,
+      team: 'Bayern',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/bayernext.jpg',
+      stock: 100,
+    },
+    {
+      id: 47,
+      team: 'Bayern',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/bayernthird.jpg',
+      stock: 100,
+    },
 
-    { id: 48, team: 'BVB', name: 'Domicile', price: 80, image: 'assets/icon/dortmunddom.webp' },
-    { id: 49, team: 'BVB', name: 'Extérieur', price: 80, image: 'assets/icon/dortmundext.avif' },
+    {
+      id: 48,
+      team: 'BVB',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/dortmunddom.webp',
+      stock: 100,
+    },
+    {
+      id: 49,
+      team: 'BVB',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/dortmundext.avif',
+      stock: 100,
+    },
 
     {
       id: 50,
@@ -139,6 +401,7 @@ export class JerseyService {
       name: 'Domicile',
       price: 80,
       image: 'assets/icon/francfortdom.jpg',
+      stock: 100,
     },
     {
       id: 51,
@@ -146,6 +409,7 @@ export class JerseyService {
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/francfortext.webp',
+      stock: 100,
     },
     {
       id: 52,
@@ -153,6 +417,7 @@ export class JerseyService {
       name: 'Third',
       price: 80,
       image: 'assets/icon/francfortthird.webp',
+      stock: 100,
     },
 
     {
@@ -161,6 +426,7 @@ export class JerseyService {
       name: 'Domicile',
       price: 80,
       image: 'assets/icon/leverkusendom.jpg',
+      stock: 100,
     },
     {
       id: 54,
@@ -168,6 +434,7 @@ export class JerseyService {
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/leverkusenext.jpg',
+      stock: 100,
     },
     {
       id: 55,
@@ -175,15 +442,58 @@ export class JerseyService {
       name: 'Third',
       price: 80,
       image: 'assets/icon/leverkusenthird.jpg',
+      stock: 100,
     },
 
-    { id: 56, team: 'Juventus', name: 'Domicile', price: 80, image: 'assets/icon/juvedom.webp' },
-    { id: 57, team: 'Juventus', name: 'Extérieur', price: 80, image: 'assets/icon/juveext.webp' },
-    { id: 58, team: 'Juventus', name: 'Third', price: 80, image: 'assets/icon/juvethird.jpg' },
+    {
+      id: 56,
+      team: 'Juventus',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/juvedom.webp',
+      stock: 100,
+    },
+    {
+      id: 57,
+      team: 'Juventus',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/juveext.webp',
+      stock: 100,
+    },
+    {
+      id: 58,
+      team: 'Juventus',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/juvethird.jpg',
+      stock: 100,
+    },
 
-    { id: 59, team: 'AC Milan', name: 'Domicile', price: 80, image: 'assets/icon/acmilandom.webp' },
-    { id: 60, team: 'AC Milan', name: 'Extérieur', price: 80, image: 'assets/icon/acmilanext.jpg' },
-    { id: 61, team: 'AC Milan', name: 'Third', price: 80, image: 'assets/icon/acmilanthird.webp' },
+    {
+      id: 59,
+      team: 'AC Milan',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/acmilandom.webp',
+      stock: 100,
+    },
+    {
+      id: 60,
+      team: 'AC Milan',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/acmilanext.jpg',
+      stock: 100,
+    },
+    {
+      id: 61,
+      team: 'AC Milan',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/acmilanthird.webp',
+      stock: 100,
+    },
 
     {
       id: 62,
@@ -191,6 +501,7 @@ export class JerseyService {
       name: 'Domicile',
       price: 80,
       image: 'assets/icon/intermilandom.webp',
+      stock: 100,
     },
     {
       id: 63,
@@ -198,6 +509,7 @@ export class JerseyService {
       name: 'Extérieur',
       price: 80,
       image: 'assets/icon/intermilanext.jpg',
+      stock: 100,
     },
     {
       id: 64,
@@ -205,25 +517,69 @@ export class JerseyService {
       name: 'Third',
       price: 80,
       image: 'assets/icon/intermilanthird.jpg',
+      stock: 100,
     },
 
-    { id: 65, team: 'AS Rome', name: 'Domicile', price: 80, image: 'assets/icon/romedom.jpeg' },
-    { id: 66, team: 'AS Rome', name: 'Extérieur', price: 80, image: 'assets/icon/romeext.avif' },
-    { id: 67, team: 'AS Rome', name: 'Third', price: 80, image: 'assets/icon/romethird.jpg' },
+    {
+      id: 65,
+      team: 'AS Rome',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/romedom.jpeg',
+      stock: 100,
+    },
+    {
+      id: 66,
+      team: 'AS Rome',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/romeext.avif',
+      stock: 100,
+    },
+    {
+      id: 67,
+      team: 'AS Rome',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/romethird.jpg',
+      stock: 100,
+    },
 
-    { id: 68, team: 'Naples', name: 'Domicile', price: 80, image: 'assets/icon/naplesdom.jpg' },
-    { id: 69, team: 'Naples', name: 'Extérieur', price: 80, image: 'assets/icon/naplesext.jpg' },
-    { id: 70, team: 'Naples', name: 'Third', price: 80, image: 'assets/icon/naplesthird.jpg' },
+    {
+      id: 68,
+      team: 'Naples',
+      name: 'Domicile',
+      price: 80,
+      image: 'assets/icon/naplesdom.jpg',
+      stock: 100,
+    },
+    {
+      id: 69,
+      team: 'Naples',
+      name: 'Extérieur',
+      price: 80,
+      image: 'assets/icon/naplesext.jpg',
+      stock: 100,
+    },
+    {
+      id: 70,
+      team: 'Naples',
+      name: 'Third',
+      price: 80,
+      image: 'assets/icon/naplesthird.jpg',
+      stock: 100,
+    },
   ]);
 
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  getAllJersey(): Jersey[] {
+    return this.jersey();
   }
 
-  async getAllJersey(): Promise<Jersey[]> {
-    console.log('Service : Récupération de tous les maillots ...');
-    await this.delay(300);
-    console.log('Service : Maillots récupérés avec succès');
-    return this.jersey();
+  // Diminue le stock d’un maillot
+  decrementStock(id: number, quantity = 1) {
+    const updated = this.jersey().map((j) =>
+      j.id === id ? { ...j, stock: j.stock - quantity } : j,
+    );
+    this.jersey.set(updated);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanierService } from '../../panier/services/panier.service';
+import { JerseyService } from '../../jersey/services/jersey.service';
 
 @Component({
   selector: 'app-panier',
@@ -27,7 +28,6 @@ import { PanierService } from '../../panier/services/panier.service';
         <div class="flex-1">
           <h3 class="font-semibold">{{ item.jersey.name }}</h3>
           <p class="text-sm text-gray-500">Taille: {{ item.size }}</p>
-          <!-- <p class="text-sm text-gray-500">Quantité: {{ item.quantity }}</p> -->
           <p class="text-sm font-medium">
             {{ item.jersey.price | currency: 'EUR' }}
           </p>
@@ -41,12 +41,15 @@ import { PanierService } from '../../panier/services/panier.service';
       </div>
 
       <div *ngIf="panierService.panierItems().length > 0" class="mt-6">
-        <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+        <button
+          class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+          (click)="payer()"
+        >
           Payer
         </button>
         <br />
         <button
-          class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-red-700"
+          class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 mt-2"
           (click)="panierService.clearPanier()"
         >
           Vider le panier
@@ -54,8 +57,20 @@ import { PanierService } from '../../panier/services/panier.service';
       </div>
     </div>
   `,
-  styles: [],
 })
 export class PanierComponent {
   panierService = inject(PanierService);
+  jerseyService = inject(JerseyService);
+
+  payer() {
+    // Décrémenter le stock de chaque maillot du panier
+    for (const item of this.panierService.panierItems()) {
+      this.jerseyService.decrementStock(item.jersey.id, 1);
+    }
+
+    // Vider le panier après paiement
+    this.panierService.clearPanier();
+
+    alert('✅ Paiement validé !');
+  }
 }

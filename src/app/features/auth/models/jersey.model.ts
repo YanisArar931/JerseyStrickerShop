@@ -4,4 +4,5 @@ export interface Jersey {
   price: number;
   name: string;
   image: string;
+  stock: number;
 }
