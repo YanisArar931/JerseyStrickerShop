@@ -6,6 +6,7 @@ import { JerseyService } from '../services/jersey.service';
 import { PanierService } from '../../panier/services/panier.service';
 import { AuthService } from '../../auth/services/auth.services';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { StockStatusPipe } from '../../../shared/pipes/stock.pipe';
 
 interface Club {
   name: string;
@@ -21,7 +22,7 @@ interface Championnat {
 @Component({
   selector: 'app-jersey-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, FormsModule, TranslatePipe, StockStatusPipe],
   template: `
     <div class="max-w-5xl mx-auto">
       <br />
@@ -69,7 +70,7 @@ interface Championnat {
           <!-- Bouton Ajouter au panier -->
           <button
             class="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
-            [disabled]="!selectedSize"
+            [disabled]="!selectedSize || selectedJersey()?.stock === 0"
             (click)="addToPanier(selectedJersey())"
           >
             {{ 'panier' | translate }}
@@ -151,6 +152,15 @@ interface Championnat {
             <span class="mt-1 text-sm font-medium text-gray-500">
               {{ jersey.price | currency: 'EUR' }}
             </span>
+            <p
+              class="text-center font-medium"
+              [ngClass]="{
+                'text-green-600': jersey.stock! > 0,
+                'text-red-600': jersey.stock === 0,
+              }"
+            >
+              {{ jersey.stock | stockStatus }}
+            </p>
           </div>
         </div>
       </div>

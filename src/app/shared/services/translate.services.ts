@@ -40,6 +40,8 @@ export class TranslateService {
       exterieur: 'Extérieur',
       third: 'Third',
       size: 'Taille',
+      inStock: 'En stock',
+      outofstock: 'Rupture de stock',
     },
     en: {
       panier: 'Add to Cart',
@@ -75,6 +77,8 @@ export class TranslateService {
       exterieur: 'Away',
       third: 'Third',
       size: 'Size',
+      inStock: 'In stock',
+      outofstock: 'Out of stock',
     },
   };
 

@@ -12,7 +12,7 @@ export class JerseyService {
       name: 'domicile',
       price: 80,
       image: 'assets/icon/psgdom.webp',
-      stock: 100,
+      stock: 1,
     },
     {
       id: 2,
