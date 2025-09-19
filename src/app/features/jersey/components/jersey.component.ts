@@ -5,6 +5,7 @@ import { Jersey } from '../../auth/models/jersey.model';
 import { JerseyService } from '../services/jersey.service';
 import { PanierService } from '../../panier/services/panier.service';
 import { AuthService } from '../../auth/services/auth.services';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 interface Club {
   name: string;
@@ -20,7 +21,7 @@ interface Championnat {
 @Component({
   selector: 'app-jersey-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   template: `
     <div class="max-w-5xl mx-auto">
       <br />
@@ -46,7 +47,7 @@ interface Championnat {
             class="w-full h-auto object-contain max-h-[300px] sm:max-h-[400px]"
           />
           <h2 class="mt-2 text-center font-semibold">
-            {{ selectedJersey()?.name }}
+            {{ selectedJersey()?.name || '' | translate }}
           </h2>
           <p class="text-center text-gray-500">
             {{ selectedJersey()?.price | currency: 'EUR' }}
@@ -71,16 +72,18 @@ interface Championnat {
             [disabled]="!selectedSize"
             (click)="addToPanier(selectedJersey())"
           >
-            Ajouter au panier
+            {{ 'panier' | translate }}
           </button>
         </div>
       </div>
 
-      <div class="text-lg mb-4 text-right">Bienvenu {{ currentUser?.name }}</div>
+      <div class="text-lg mb-4 text-right">
+        {{ 'bienvenu' | translate }} {{ currentUser?.name }}
+      </div>
 
       <!-- Championnats -->
       <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <div class="text-lg font-semibold mb-4">Choisissez un championnats</div>
+        <div class="text-lg font-semibold mb-4">{{ 'championnats' | translate }}</div>
         <div class="flex justify-center flex-wrap gap-10">
           <div
             *ngFor="let champ of championnats; trackBy: trackByLogo"
@@ -102,7 +105,7 @@ interface Championnat {
 
       <!-- Clubs -->
       <div *ngIf="selectedChamp()" class="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
-        <div class="text-lg font-semibold mb-4">Choisissez un club</div>
+        <div class="text-lg font-semibold mb-4">{{ 'clubs' | translate }}</div>
         <div class="flex flex-wrap justify-center gap-10">
           <div
             *ngFor="let club of selectedChamp()?.clubs; trackBy: trackByLogo"
@@ -142,7 +145,9 @@ interface Championnat {
               [alt]="jersey.name"
               class="h-24 w-24 object-contain sm:h-28 sm:w-28 lg:h-32 lg:w-32"
             />
-            <span class="mt-2 text-sm text-gray-700 text-center">{{ jersey.name }}</span>
+            <span class="mt-2 text-sm text-gray-700 text-center">{{
+              jersey.name | translate
+            }}</span>
             <span class="mt-1 text-sm font-medium text-gray-500">
               {{ jersey.price | currency: 'EUR' }}
             </span>

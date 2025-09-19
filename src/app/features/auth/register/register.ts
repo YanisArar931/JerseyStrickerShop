@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.services';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 // Validateur personnalisé pour la confirmation de mot de passe
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -25,18 +26,22 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   template: `
     <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div class="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-lg">
         <div>
-          <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">Créer un compte</h2>
+          <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">
+            {{ 'register' | translate }}
+          </h2>
         </div>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
           <!-- Nom -->
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700"> Nom </label>
+            <label for="name" class="block text-sm font-medium text-gray-700">
+              {{ 'name' | translate }}
+            </label>
             <input
               id="name"
               type="text"
@@ -51,7 +56,9 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 
           <!-- Prénom -->
           <div>
-            <label for="firstname" class="block text-sm font-medium text-gray-700"> Prénom </label>
+            <label for="firstname" class="block text-sm font-medium text-gray-700">
+              {{ 'firstname' | translate }}
+            </label>
             <input
               id="firstname"
               type="text"
@@ -67,7 +74,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
           <!-- Email -->
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
-              Adresse email
+              {{ 'mail' | translate }}
             </label>
             <input
               id="email"
@@ -84,7 +91,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
           <!-- Mot de passe -->
           <div>
             <label for="password" class="block text-sm font-medium text-gray-700">
-              Mot de passe
+              {{ 'password' | translate }}
             </label>
             <input
               id="password"
@@ -101,7 +108,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
           <!-- Confirmation mot de passe -->
           <div>
             <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
-              Confirmer
+              {{ 'confirm' | translate }}
             </label>
             <input
               id="confirmPassword"
@@ -126,9 +133,9 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
                 <span
                   class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"
                 ></span>
-                Création en cours...
+                {{ 'creation_inprogress' | translate }}
               } @else {
-                Créer le compte
+                {{ 'createaccount' | translate }}
               }
             </button>
           </div>

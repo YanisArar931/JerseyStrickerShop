@@ -7,14 +7,15 @@ import { Jersey } from '../auth/models/jersey.model';
 import { User } from '../auth/models/user.models';
 import { firstValueFrom } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   template: `
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold mb-6">Interface Admin</h1>
+      <h1 class="text-3xl font-bold mb-6">{{ 'interface_admin' | translate }}</h1>
 
       <!-- Onglets -->
       <div class="flex space-x-4 mb-6">
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
           [class.text-white]="activeTab() === 'users'"
           class="px-4 py-2 rounded font-medium hover:bg-green-700"
         >
-          Utilisateurs
+          {{ 'users' | translate }}
         </button>
 
         <button
@@ -33,7 +34,7 @@ import { FormsModule } from '@angular/forms';
           [class.text-white]="activeTab() === 'jerseys'"
           class="px-4 py-2 rounded font-medium hover:bg-green-700"
         >
-          Maillots
+          {{ 'jerseys' | translate }}
         </button>
       </div>
 
@@ -47,29 +48,31 @@ import { FormsModule } from '@angular/forms';
                   <th
                     class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
                   >
-                    Nom
+                    {{ 'name' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
                   >
-                    Email
+                    {{ 'mail' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
                   >
-                    Rôle
+                    {{ 'role' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
                   >
-                    Actions
+                    {{ 'action' | translate }}
                   </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
                 @for (user of users(); track user.id) {
                   <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user.name }}</td>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                      {{ user.name | uppercase }}
+                    </td>
                     <td class="px-6 py-4 text-sm text-gray-700">{{ user.email }}</td>
                     <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ user.role }}</td>
                     <td class="px-6 py-4 text-sm">
@@ -78,10 +81,12 @@ import { FormsModule } from '@angular/forms';
                           (click)="deleteUser(user.id)"
                           class="text-red-600 hover:text-red-900 font-medium"
                         >
-                          Supprimer
+                          {{ 'delete' | translate }}
                         </button>
                       } @else {
-                        <span class="text-gray-400 italic">Admin protégé</span>
+                        <span class="text-gray-400 italic">{{
+                          'protected_admin' | translate
+                        }}</span>
                       }
                     </td>
                   </tr>
@@ -104,27 +109,27 @@ import { FormsModule } from '@angular/forms';
                   <th
                     class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
-                    Équipe
+                    {{ 'team' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
-                    Type
+                    {{ 'type' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
-                    Prix
+                    {{ 'price' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
-                    Stock
+                    {{ 'stock' | translate }}
                   </th>
                   <th
                     class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
-                    Actions
+                    {{ 'action' | translate }}
                   </th>
                 </tr>
               </thead>
@@ -132,18 +137,17 @@ import { FormsModule } from '@angular/forms';
                 @for (jersey of maillots(); track jersey.id) {
                   <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ jersey.team }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ jersey.name }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700 capitalize">
+                      {{ jersey.name | translate }}
+                    </td>
                     <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.price }} €</td>
                     <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.stock }}</td>
-                    <!-- <td class="px-6 py-4 text-sm">
-                  Supprimer
-              </td> -->
                   </tr>
                 }
               </tbody>
             </table>
           } @else {
-            <p class="text-gray-500 text-sm">Aucun maillot trouvé</p>
+            <p class="text-gray-500 text-sm">{{ 'no_jerseys' | translate }}</p>
           }
         </div>
       }
@@ -186,14 +190,4 @@ export class AdminComponent implements OnInit {
       await this.loadUsers();
     }
   }
-
-  /*   async updateStock(jersey: Jersey) {
-    try {
-      await this.jerseyService.updateStock(jersey.id, jersey.stock);
-      alert('Stock mis à jour');
-      await this.loadMaillots();
-    } catch (error) {
-      console.error('Erreur mise à jour stock :', error);
-    }
-  } */
 }

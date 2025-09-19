@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../features/auth/services/auth.services';
+import { TranslateService } from '../../services/translate.services';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ import { AuthService } from '../../../features/auth/services/auth.services';
         />
 
         <!-- Navigation -->
-        <nav class="w-full sm:w-auto">
+        <nav class="w-full sm:w-auto flex items-center gap-4">
           <ul class="flex justify-center sm:justify-end flex-wrap gap-4">
             @if (currentUser()) {
               <li>
@@ -72,6 +73,16 @@ import { AuthService } from '../../../features/auth/services/auth.services';
               </li>
             }
           </ul>
+
+          <!-- Switch langue -->
+          <div class="flex space-x-2 ml-4">
+            <button (click)="setLang('fr')" class="px-2 py-1 text-sm rounded hover:bg-gray-200">
+              FR
+            </button>
+            <button (click)="setLang('en')" class="px-2 py-1 text-sm rounded hover:bg-gray-200">
+              EN
+            </button>
+          </div>
         </nav>
       </div>
     </header>
@@ -81,6 +92,7 @@ import { AuthService } from '../../../features/auth/services/auth.services';
 export class HeaderComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private translateService = inject(TranslateService);
 
   currentUser = this.authService.currentUser$;
 
@@ -95,5 +107,9 @@ export class HeaderComponent {
     } else {
       this.router.navigate(['/jersey']);
     }
+  }
+
+  setLang(lang: 'fr' | 'en') {
+    this.translateService.setLang(lang);
   }
 }

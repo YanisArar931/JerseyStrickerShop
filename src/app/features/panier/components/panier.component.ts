@@ -2,18 +2,19 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanierService } from '../../panier/services/panier.service';
 import { JerseyService } from '../../jersey/services/jersey.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-panier',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   template: `
     <br />
     <div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold mb-4">Votre Panier</h2>
+      <h2 class="text-2xl font-bold mb-4">{{ 'mon_panier' | translate }}</h2>
 
       <div *ngIf="panierService.panierItems().length === 0" class="text-gray-500">
-        Votre panier est vide.
+        {{ 'panier_vide' | translate }}
       </div>
 
       <div
@@ -26,8 +27,8 @@ import { JerseyService } from '../../jersey/services/jersey.service';
           class="h-16 w-16 object-contain mr-4"
         />
         <div class="flex-1">
-          <h3 class="font-semibold">{{ item.jersey.name }}</h3>
-          <p class="text-sm text-gray-500">Taille: {{ item.size }}</p>
+          <h3 class="font-semibold">{{ item.jersey.name | translate }}</h3>
+          <p class="text-sm text-gray-500">{{ 'size' | translate }} : {{ item.size }}</p>
           <p class="text-sm font-medium">
             {{ item.jersey.price | currency: 'EUR' }}
           </p>
@@ -36,7 +37,7 @@ import { JerseyService } from '../../jersey/services/jersey.service';
           class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
           (click)="panierService.removeFromPanier(i)"
         >
-          Supprimer
+          {{ 'delete' | translate }}
         </button>
       </div>
 
@@ -45,14 +46,14 @@ import { JerseyService } from '../../jersey/services/jersey.service';
           class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
           (click)="payer()"
         >
-          Payer
+          {{ 'payer' | translate }}
         </button>
         <br />
         <button
           class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 mt-2"
           (click)="panierService.clearPanier()"
         >
-          Vider le panier
+          {{ 'vider' | translate }}
         </button>
       </div>
     </div>
