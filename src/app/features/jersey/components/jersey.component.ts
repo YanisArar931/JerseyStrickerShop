@@ -7,6 +7,7 @@ import { PanierService } from '../../panier/services/panier.service';
 import { AuthService } from '../../auth/services/auth.services';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { StockStatusPipe } from '../../../shared/pipes/stock.pipe';
+import { ReductionDirective } from '../../../shared/directives/reduction.directive';
 
 interface Club {
   name: string;
@@ -22,7 +23,7 @@ interface Championnat {
 @Component({
   selector: 'app-jersey-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe, StockStatusPipe],
+  imports: [CommonModule, FormsModule, TranslatePipe, StockStatusPipe, ReductionDirective],
   template: `
     <div class="max-w-5xl mx-auto">
       <br />
@@ -52,6 +53,9 @@ interface Championnat {
           </h2>
           <p class="text-center text-gray-500">
             {{ selectedJersey()?.price | currency: 'EUR' }}
+            <span [appReduction]="selectedJersey()?.price ?? 80">{{
+              'reduction' | translate
+            }}</span>
           </p>
 
           <!-- Sélection de la taille -->
@@ -70,11 +74,18 @@ interface Championnat {
           <!-- Bouton Ajouter au panier -->
           <button
             class="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
-            [disabled]="!selectedSize || selectedJersey()?.stock === 0"
+            [disabled]="
+              !selectedSize || selectedJersey()?.stock === 0 || currentUser?.role === 'admin'
+            "
             (click)="addToPanier(selectedJersey())"
           >
             {{ 'panier' | translate }}
           </button>
+
+          <!-- Message si admin -->
+          <p *ngIf="currentUser?.role === 'admin'" class="text-gray-500 text-sm italic mt-2">
+            {{ 'admin_cant_pay' | translate }}
+          </p>
         </div>
       </div>
 
@@ -146,12 +157,13 @@ interface Championnat {
               [alt]="jersey.name"
               class="h-24 w-24 object-contain sm:h-28 sm:w-28 lg:h-32 lg:w-32"
             />
-            <span class="mt-2 text-sm text-gray-700 text-center">{{
-              jersey.name | translate
-            }}</span>
+            <span class="mt-2 text-sm text-gray-700 text-center">
+              {{ jersey.name | translate }}</span
+            >
             <span class="mt-1 text-sm font-medium text-gray-500">
               {{ jersey.price | currency: 'EUR' }}
             </span>
+
             <p
               class="text-center font-medium"
               [ngClass]="{
@@ -161,6 +173,7 @@ interface Championnat {
             >
               {{ jersey.stock | stockStatus }}
             </p>
+            <span [appReduction]="jersey.price"></span>
           </div>
         </div>
       </div>

@@ -142,6 +142,14 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.price }} €</td>
                     <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.stock }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">
+                      <button
+                        class="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+                        (click)="editJersey(jersey)"
+                      >
+                        {{ 'modify' | translate }}
+                      </button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -188,6 +196,21 @@ export class AdminComponent implements OnInit {
     if (confirm('Supprimer cet utilisateur ?')) {
       await this.authService.deleteUser(userId);
       await this.loadUsers();
+    }
+  }
+
+  editJersey(jersey: Jersey) {
+    const newPrice = prompt('Nouveau prix (€) :', jersey.price.toString());
+    const newStock = prompt('Nouveau stock :', jersey.stock.toString());
+
+    if (newPrice !== null && newStock !== null) {
+      this.jerseyService.updateJersey(jersey.id, {
+        price: parseFloat(newPrice),
+        stock: parseInt(newStock, 10),
+      });
+
+      // Mise à jour instantanée
+      this.loadMaillots();
     }
   }
 }

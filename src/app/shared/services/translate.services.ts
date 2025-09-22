@@ -42,6 +42,9 @@ export class TranslateService {
       size: 'Taille',
       inStock: 'En stock',
       outofstock: 'Rupture de stock',
+      admin_cant_pay: 'Les administrateurs ne peuvent pas ajouter au panier.',
+      reduction: 'Réduction',
+      modify: 'Modifier',
     },
     en: {
       panier: 'Add to Cart',
@@ -79,6 +82,9 @@ export class TranslateService {
       size: 'Size',
       inStock: 'In stock',
       outofstock: 'Out of stock',
+      admin_cant_pay: 'Admins cannot add to cart.',
+      reduction: 'Reduction',
+      modify: 'Modify',
     },
   };
 
