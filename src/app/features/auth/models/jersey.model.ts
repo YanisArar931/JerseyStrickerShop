@@ -1,8 +1,9 @@
 export interface Jersey {
   id: number;
+  championship: string;
   team: string;
-  price: number;
   name: string;
-  image: string;
+  price: number;
   stock: number;
+  image?: string;
 }

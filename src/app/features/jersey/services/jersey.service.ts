@@ -5,10 +5,14 @@ import { Jersey } from '../../auth/models/jersey.model';
   providedIn: 'root',
 })
 export class JerseyService {
-  private jersey = signal<Jersey[]>(this.loadJerseys());
+  private STORAGE_KEY = 'jerseys';
 
+  private jersey = signal<Jersey[]>(this.loadJerseys());
+  jerseys = this.jersey.asReadonly();
+
+  // Charger depuis localStorage au démarrage
   private loadJerseys(): Jersey[] {
-    const data = localStorage.getItem('jerseys');
+    const data = localStorage.getItem(this.STORAGE_KEY);
     return data
       ? JSON.parse(data)
       : [
@@ -18,6 +22,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/psgdom.webp',
+            championship: 'Ligue 1',
             stock: 1,
           },
           {
@@ -26,6 +31,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/psgext.jpg',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -34,6 +40,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/psgthird.webp',
+            championship: 'Ligue 1',
             stock: 100,
           },
 
@@ -43,6 +50,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/omdom.webp',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -51,6 +59,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/omext.avif',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -59,6 +68,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/omthird.jpg',
+            championship: 'Ligue 1',
             stock: 100,
           },
 
@@ -68,6 +78,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/oldom.webp',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -76,6 +87,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/olext.webp',
+            championship: 'Ligue 1',
             stock: 100,
           },
 
@@ -85,6 +97,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/loscdom.webp',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -93,6 +106,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/loscext.jpg',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -101,6 +115,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/loscthird.png',
+            championship: 'Ligue 1',
             stock: 100,
           },
 
@@ -110,6 +125,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/asmdom.jpg',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -118,6 +134,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/asmext.jpg',
+            championship: 'Ligue 1',
             stock: 100,
           },
           {
@@ -126,6 +143,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/asmthird.jpg',
+            championship: 'Ligue 1',
             stock: 100,
           },
 
@@ -135,6 +153,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/intermiamidom.avif',
+            championship: 'goat',
             stock: 100,
           },
           {
@@ -143,6 +162,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/intermiamiext.avif',
+            championship: 'goat',
             stock: 100,
           },
           {
@@ -151,6 +171,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/intermiamithird.avif',
+            championship: 'goat',
             stock: 100,
           },
 
@@ -160,6 +181,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/santosdom.jpg',
+            championship: 'goat',
             stock: 100,
           },
           {
@@ -168,6 +190,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/santosext.jpg',
+            championship: 'goat',
             stock: 100,
           },
 
@@ -177,6 +200,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/alnassrdom.webp',
+            championship: 'goat',
             stock: 100,
           },
 
@@ -186,6 +210,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/liverpooldom.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -194,6 +219,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/liverpoolext.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -202,6 +228,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/liverpoolthird.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
 
@@ -211,6 +238,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/arsenaldom.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -219,6 +247,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/arsenalext.webp',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -227,6 +256,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/arsenalthird.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
 
@@ -236,6 +266,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/chelseadom.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -244,6 +275,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/chelseaext.webp',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -252,6 +284,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/chelseathird.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
 
@@ -261,6 +294,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/uniteddom.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -269,6 +303,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/unitedext.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -277,6 +312,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/unitedthird.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
 
@@ -286,6 +322,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/citydom.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -294,6 +331,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/cityext.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
           {
@@ -302,6 +340,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/citythird.jpg',
+            championship: 'Premier League',
             stock: 100,
           },
 
@@ -311,6 +350,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/realdom.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
           {
@@ -319,6 +359,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/realext.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
           {
@@ -327,6 +368,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/realthird.webp',
+            championship: 'La Liga',
             stock: 100,
           },
 
@@ -336,6 +378,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/barcadom.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
           {
@@ -344,6 +387,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/barcaext.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
           {
@@ -352,6 +396,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/barcathird.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
 
@@ -361,6 +406,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/athleticomadriddom.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
           {
@@ -369,6 +415,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/athleticomadridext.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
           {
@@ -377,6 +424,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/athleticomadridthird.jpg',
+            championship: 'La Liga',
             stock: 100,
           },
 
@@ -386,6 +434,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/bayerndom.webp',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -394,6 +443,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/bayernext.jpg',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -402,6 +452,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/bayernthird.jpg',
+            championship: 'Bundesliga',
             stock: 100,
           },
 
@@ -411,6 +462,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/dortmunddom.webp',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -419,6 +471,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/dortmundext.avif',
+            championship: 'Bundesliga',
             stock: 100,
           },
 
@@ -428,6 +481,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/francfortdom.jpg',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -436,6 +490,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/francfortext.webp',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -444,6 +499,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/francfortthird.webp',
+            championship: 'Bundesliga',
             stock: 100,
           },
 
@@ -453,6 +509,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/leverkusendom.jpg',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -461,6 +518,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/leverkusenext.jpg',
+            championship: 'Bundesliga',
             stock: 100,
           },
           {
@@ -469,6 +527,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/leverkusenthird.jpg',
+            championship: 'Bundesliga',
             stock: 100,
           },
 
@@ -478,6 +537,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/juvedom.webp',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -486,6 +546,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/juveext.webp',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -494,6 +555,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/juvethird.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
 
@@ -503,6 +565,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/acmilandom.webp',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -511,6 +574,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/acmilanext.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -519,6 +583,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/acmilanthird.webp',
+            championship: 'Serie A',
             stock: 100,
           },
 
@@ -528,6 +593,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/intermilandom.webp',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -536,6 +602,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/intermilanext.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -544,6 +611,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/intermilanthird.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
 
@@ -553,6 +621,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/romedom.jpeg',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -561,6 +630,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/romeext.avif',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -569,6 +639,7 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/romethird.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
 
@@ -578,6 +649,7 @@ export class JerseyService {
             name: 'domicile',
             price: 80,
             image: 'assets/icon/naplesdom.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -586,6 +658,7 @@ export class JerseyService {
             name: 'exterieur',
             price: 80,
             image: 'assets/icon/naplesext.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
           {
@@ -594,13 +667,17 @@ export class JerseyService {
             name: 'third',
             price: 80,
             image: 'assets/icon/naplesthird.jpg',
+            championship: 'Serie A',
             stock: 100,
           },
         ];
   }
 
+  // private saveJerseys() {
+  //   localStorage.setItem('jerseys', JSON.stringify(this.jersey()));
+  // }
   private saveJerseys() {
-    localStorage.setItem('jerseys', JSON.stringify(this.jersey()));
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.jersey()));
   }
 
   getAllJersey(): Jersey[] {
@@ -619,6 +696,20 @@ export class JerseyService {
     this.jersey.update((jers: Jersey[]) => {
       const updated = jers.map((j: Jersey) => (j.id === id ? { ...j, ...data } : j));
       localStorage.setItem('jerseys', JSON.stringify(updated));
+      return updated;
+    });
+  }
+
+  // addJersey(newJersey: Omit<Jersey, 'id'>) {
+  //   const id = Math.max(0, ...this.jersey().map(j => j.id)) + 1;
+  //   this.jersey.update(list => [...list, { ...newJersey, id }]);
+  // }
+
+  addJersey(newJersey: Jersey) {
+    const id = Math.max(0, ...this.jersey().map((j) => j.id)) + 1;
+    this.jersey.update((list) => {
+      const updated = [...list, { ...newJersey, id }];
+      this.saveJerseys(); // <--- Sauvegarde directe
       return updated;
     });
   }

@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.services';
 import { JerseyService } from '../jersey/services/jersey.service';
 import { Jersey } from '../auth/models/jersey.model';
 import { User } from '../auth/models/user.models';
 import { firstValueFrom } from 'rxjs';
-import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
@@ -36,6 +36,15 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
         >
           {{ 'jerseys' | translate }}
         </button>
+
+        <button
+          (click)="activeTab.set('addjerseys')"
+          [class.bg-green-600]="activeTab() === 'addjerseys'"
+          [class.text-white]="activeTab() === 'addjerseys'"
+          class="px-4 py-2 rounded font-medium hover:bg-green-700"
+        >
+          {{ 'addjersey' | translate }}
+        </button>
       </div>
 
       <!-- Liste utilisateurs -->
@@ -46,22 +55,22 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               <thead class="bg-gray-100">
                 <tr>
                   <th
-                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
                     {{ 'name' | translate }}
                   </th>
                   <th
-                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
                     {{ 'mail' | translate }}
                   </th>
                   <th
-                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
                     {{ 'role' | translate }}
                   </th>
                   <th
-                    class="px-6 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider text-left"
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
                     {{ 'action' | translate }}
                   </th>
@@ -159,6 +168,104 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
           }
         </div>
       }
+
+      <!-- Ajouter un maillot -->
+      @if (activeTab() === 'addjerseys') {
+        <div class="bg-white shadow rounded-lg p-6">
+          <form (ngSubmit)="addJersey()" #jerseyForm="ngForm" class="space-y-4">
+            <!-- Choix championnat -->
+            <!-- Championnat -->
+            <div>
+              <label for="championship" class="block text-sm font-medium mb-1">
+                {{ 'championship' | translate }}
+              </label>
+              <select
+                id="championship"
+                [(ngModel)]="newJersey.championship"
+                name="championship"
+                class="w-full border rounded px-3 py-2"
+                (ngModelChange)="onChampionshipChange($event)"
+                required
+              >
+                <option *ngFor="let c of championships" [value]="c">{{ c }}</option>
+              </select>
+            </div>
+
+            <!-- Choix équipe filtrée -->
+            <div>
+              <label for="team" class="block text-sm font-medium mb-1">
+                {{ 'team' | translate }}
+              </label>
+              <select
+                id="team"
+                [(ngModel)]="newJersey.team"
+                name="team"
+                class="w-full border rounded px-3 py-2"
+                required
+              >
+                <option *ngFor="let team of filteredTeams()" [value]="team">{{ team }}</option>
+              </select>
+            </div>
+
+            <!-- Image -->
+            <div>
+              <label for="image" class="block text-sm font-medium mb-1">
+                {{ 'image' | translate }}
+              </label>
+              <img
+                *ngIf="newJersey.image"
+                [src]="newJersey.image"
+                alt="Maillot"
+                class="w-24 h-auto"
+              />
+              <input
+                id="image"
+                type="file"
+                (change)="onFileSelected($event)"
+                class="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <!-- Prix -->
+            <div>
+              <label for="price" class="block text-sm font-medium mb-1">
+                {{ 'price' | translate }}
+              </label>
+              <input
+                id="price"
+                type="number"
+                [(ngModel)]="newJersey.price"
+                name="price"
+                class="w-full border rounded px-3 py-2"
+                required
+              />
+            </div>
+
+            <!-- Stock -->
+            <div>
+              <label for="stock" class="block text-sm font-medium mb-1">
+                {{ 'stock' | translate }}
+              </label>
+              <input
+                id="stock"
+                type="number"
+                [(ngModel)]="newJersey.stock"
+                name="stock"
+                class="w-full border rounded px-3 py-2"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              [disabled]="jerseyForm.invalid"
+            >
+              {{ 'add' | translate }}
+            </button>
+          </form>
+        </div>
+      }
     </div>
   `,
 })
@@ -166,10 +273,28 @@ export class AdminComponent implements OnInit {
   private authService = inject(AuthService);
   private jerseyService = inject(JerseyService);
   private router = inject(Router);
+  filteredTeams = signal<string[]>([]);
 
-  activeTab = signal<'users' | 'jerseys'>('users');
+  activeTab = signal<'users' | 'jerseys' | 'addjerseys'>('users');
   users = signal<User[]>([]);
   maillots = signal<Jersey[]>([]);
+  championships = ['Ligue 1', 'Premier League', 'Serie A', 'La Liga', 'Bundesliga'];
+
+  teamsByChampionship: Record<string, string[]> = {
+    'Ligue 1': ['PSG', 'OM', 'OL', 'LOSC', 'ASM'],
+    'Premier League': ['Manchester United', 'Manchester City', 'Liverpool', 'Chelsea', 'Arsenal'],
+    'Serie A': ['Juventus', 'AC Milan', 'Inter Milan', 'AS Rome', 'Naples'],
+    'La Liga': ['Real Madrid', 'Barcelona', 'Atletico Madrid'],
+    Bundesliga: ['Bayern', 'BVB', 'Francfort', 'Leverkusen'],
+  };
+
+  newJersey: Partial<Jersey> & { championship: string; image?: string } = {
+    championship: '',
+    team: '',
+    price: 0,
+    stock: 0,
+    image: undefined,
+  };
 
   async ngOnInit() {
     const currentUser = await this.authService.getCurrentUser();
@@ -209,8 +334,34 @@ export class AdminComponent implements OnInit {
         stock: parseInt(newStock, 10),
       });
 
-      // Mise à jour instantanée
       this.loadMaillots();
     }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.newJersey.image = reader.result as string; // base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  addJersey() {
+    if (!this.newJersey.team || !this.newJersey.championship) return;
+
+    this.jerseyService.addJersey(this.newJersey as Jersey);
+    this.newJersey = { championship: '', team: '', price: 0, stock: 0, image: undefined };
+    this.loadMaillots();
+    this.activeTab.set('jerseys');
+  }
+
+  onChampionshipChange(championship: string) {
+    this.filteredTeams.set(this.teamsByChampionship[championship] || []);
+    // réinitialise l'équipe sélectionnée
+    this.newJersey.team = '';
   }
 }
