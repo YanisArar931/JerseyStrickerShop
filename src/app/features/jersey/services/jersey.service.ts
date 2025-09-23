@@ -11,7 +11,6 @@ export class JerseyService {
 
   jerseys = this.jersey.asReadonly();
 
-  /** Charger depuis localStorage ou valeurs par défaut */
   private loadJerseys(): Jersey[] {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data
@@ -687,7 +686,6 @@ export class JerseyService {
     return this.jerseys();
   }
 
-  // Diminue le stock d’un maillot
   decrementStock(id: number, quantity = 1) {
     const updated = this.jersey().map((j) =>
       j.id === id ? { ...j, stock: j.stock - quantity } : j,

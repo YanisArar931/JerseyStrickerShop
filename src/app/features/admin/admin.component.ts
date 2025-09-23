@@ -170,6 +170,13 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
                       >
                         {{ jersey.blocked ? ('unblock' | translate) : ('block' | translate) }}
                       </button>
+
+                      <button
+                        class="px-3 py-1 rounded text-red-700"
+                        (click)="deleteJersey(jersey.id)"
+                      >
+                        {{ 'delete' | translate }}
+                      </button>
                     </td>
                   </tr>
                 }
@@ -237,6 +244,22 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               />
             </div>
 
+            <!-- Type -->
+            <div>
+              <label for="name" class="block text-sm font-medium mb-1">
+                {{ 'type' | translate }}
+              </label>
+              <select
+                id="name"
+                [(ngModel)]="newJersey.name"
+                name="name"
+                class="w-full border rounded px-3 py-2"
+                required
+              >
+                <option *ngFor="let c of name" [value]="c">{{ c }}</option>
+              </select>
+            </div>
+
             <!-- Prix -->
             <div>
               <label for="price" class="block text-sm font-medium mb-1">
@@ -290,6 +313,7 @@ export class AdminComponent implements OnInit {
   users = signal<User[]>([]);
   maillots = signal<Jersey[]>([]);
   championships = ['Ligue 1', 'Premier League', 'Serie A', 'La Liga', 'Bundesliga'];
+  name = ['Domicile', 'Extérieur', 'Third'];
 
   teamsByChampionship: Record<string, string[]> = {
     'Ligue 1': ['PSG', 'OM', 'OL', 'LOSC', 'ASM'],
@@ -299,11 +323,12 @@ export class AdminComponent implements OnInit {
     Bundesliga: ['Bayern', 'BVB', 'Francfort', 'Leverkusen'],
   };
 
-  newJersey: Partial<Jersey> & { championship: string; image?: string } = {
+  newJersey: Partial<Jersey> & { championship: string; image?: string; type?: string } = {
     championship: '',
     team: '',
     price: 0,
     stock: 0,
+    type: '',
     image: undefined,
   };
 
@@ -332,6 +357,15 @@ export class AdminComponent implements OnInit {
     if (confirm('Supprimer cet utilisateur ?')) {
       await this.authService.deleteUser(userId);
       await this.loadUsers();
+    }
+  }
+
+  async deleteJersey(jerseyId: number) {
+    if (confirm('Supprimer ce maillot ?')) {
+      this.jerseyService.deleteJersey(jerseyId);
+      // Recharge la liste des maillots pour mettre à jour la table
+      const jerseys = await this.jerseyService.getAllJersey();
+      this.maillots.set(jerseys);
     }
   }
 
