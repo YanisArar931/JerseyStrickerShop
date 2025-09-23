@@ -1,4 +1,4 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, computed } from '@angular/core';
 import { Jersey } from '../../auth/models/jersey.model';
 
 @Injectable({
@@ -7,14 +7,16 @@ import { Jersey } from '../../auth/models/jersey.model';
 export class PanierService {
   private readonly STORAGE_KEY = 'panier';
 
-  // Signal qui contient le panier
   private _panierItems = signal<{ jersey: Jersey; size: string }[]>(this.loadFromStorage());
-
-  //Getter pour accéder au panier depuis le composant
   panierItems = this._panierItems.asReadonly();
 
+  get count(): number {
+    return this._panierItems().length;
+  }
+
+  total = computed(() => this._panierItems().reduce((sum, item) => sum + item.jersey.price, 0));
+
   constructor() {
-    // Chaque changement du panier → sauvegarde dans localStorage
     effect(() => {
       this.saveToStorage(this._panierItems());
     });
@@ -32,7 +34,6 @@ export class PanierService {
     this._panierItems.set([]);
   }
 
-  //Sauvegarde localStorage
   private saveToStorage(items: { jersey: Jersey; size: string }[]) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
   }
@@ -40,9 +41,5 @@ export class PanierService {
   private loadFromStorage(): { jersey: Jersey; size: string }[] {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data ? JSON.parse(data) : [];
-  }
-
-  get count(): number {
-    return this._panierItems().length;
   }
 }
