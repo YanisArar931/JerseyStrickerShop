@@ -2,11 +2,13 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../features/auth/services/auth.services';
 import { TranslateService } from '../../services/translate.services';
+import { PanierService } from '../../../features/panier/services/panier.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   template: `
     <header class="bg-white border-b-4 border-green-600 p-4 sticky top-0 z-50">
       <div class="container mx-auto flex flex-wrap justify-between items-center">
@@ -45,12 +47,21 @@ import { TranslateService } from '../../services/translate.services';
                 </li>
               }
               @if (currentUser()?.role === 'user') {
-                <li>
-                  <a routerLink="/panier" class="hover:text-green-600">
+                <li class="relative">
+                  <a routerLink="/panier" class="hover:text-green-600 relative inline-block">
                     <img src="assets/icon/panier.png" alt="Panier" class="h-6 w-6 sm:h-8 sm:w-8" />
+
+                    @if (panierService.count > 0) {
+                      <span
+                        class="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                      >
+                        {{ panierService.count }}
+                      </span>
+                    }
                   </a>
                 </li>
               }
+
               <li>
                 <button (click)="logout()" class="hover:text-green-600">
                   <img src="assets/icon/logout.png" alt="Logout" class="h-6 w-6 sm:h-8 sm:w-8" />
@@ -93,6 +104,7 @@ export class HeaderComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private translateService = inject(TranslateService);
+  panierService = inject(PanierService);
 
   currentUser = this.authService.currentUser$;
 

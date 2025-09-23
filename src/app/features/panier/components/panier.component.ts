@@ -40,6 +40,7 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
           {{ 'delete' | translate }}
         </button>
       </div>
+      <!-- <div>TOTAL : €</div> -->
 
       <div *ngIf="panierService.panierItems().length > 0" class="mt-6">
         <button
