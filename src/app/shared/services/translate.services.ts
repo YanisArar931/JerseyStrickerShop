@@ -49,6 +49,8 @@ export class TranslateService {
       add: 'Ajouter',
       championship: 'Championnats',
       image: 'Image',
+      unblock: 'Débloquer',
+      block: 'Bloqué',
     },
     en: {
       panier: 'Add to Cart',
@@ -93,6 +95,8 @@ export class TranslateService {
       add: 'Add',
       championship: 'Championship',
       image: 'Image',
+      unblock: 'Unblocked',
+      block: 'Blocked',
     },
   };
 

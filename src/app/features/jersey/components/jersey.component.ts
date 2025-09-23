@@ -196,7 +196,8 @@ export class JerseyListComponent implements OnInit {
   private jerseyService = inject(JerseyService);
 
   async ngOnInit() {
-    await this.loadJerseys();
+    const jerseys = await this.jerseyService.getAllJersey();
+    this.jerseys.set(jerseys.filter((j) => !j.blocked));
   }
 
   async loadJerseys() {
@@ -323,4 +324,8 @@ export class JerseyListComponent implements OnInit {
       ],
     },
   ];
+
+  get availableJerseys(): Jersey[] {
+    return this.jerseyService.jerseys().filter((j) => !j.blocked);
+  }
 }

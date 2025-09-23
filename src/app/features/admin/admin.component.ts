@@ -153,10 +153,22 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
                     <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.stock }}</td>
                     <td class="px-6 py-4 text-sm text-gray-700">
                       <button
-                        class="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+                        class="text-blue-600 hover:text-blue-900 font-medium"
                         (click)="editJersey(jersey)"
                       >
                         {{ 'modify' | translate }}
+                      </button>
+
+                      <button
+                        class="px-3 py-1 rounded text-gray-700"
+                        [ngClass]="
+                          jersey.blocked
+                            ? 'text-green-600 hover:text-green-700'
+                            : 'text-red-600 hover:text-red-700'
+                        "
+                        (click)="toggleBlock(jersey.id)"
+                      >
+                        {{ jersey.blocked ? ('unblock' | translate) : ('block' | translate) }}
                       </button>
                     </td>
                   </tr>
@@ -173,7 +185,6 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
       @if (activeTab() === 'addjerseys') {
         <div class="bg-white shadow rounded-lg p-6">
           <form (ngSubmit)="addJersey()" #jerseyForm="ngForm" class="space-y-4">
-            <!-- Choix championnat -->
             <!-- Championnat -->
             <div>
               <label for="championship" class="block text-sm font-medium mb-1">
@@ -344,7 +355,7 @@ export class AdminComponent implements OnInit {
       const file = input.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        this.newJersey.image = reader.result as string; // base64 string
+        this.newJersey.image = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
@@ -361,7 +372,19 @@ export class AdminComponent implements OnInit {
 
   onChampionshipChange(championship: string) {
     this.filteredTeams.set(this.teamsByChampionship[championship] || []);
-    // réinitialise l'équipe sélectionnée
     this.newJersey.team = '';
+  }
+
+  blockJersey(id: number) {
+    this.jerseyService.toggleBlockJersey(id);
+  }
+
+  toggleBlock(id: number) {
+    this.jerseyService.toggleBlockJersey(id);
+    this.loadMaillots();
+  }
+
+  get visibleJerseys() {
+    return this.jerseyService.jerseys().filter((j) => !j.blocked);
   }
 }

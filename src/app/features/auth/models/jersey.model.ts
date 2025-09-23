@@ -6,4 +6,5 @@ export interface Jersey {
   price: number;
   stock: number;
   image?: string;
+  blocked?: boolean;
 }

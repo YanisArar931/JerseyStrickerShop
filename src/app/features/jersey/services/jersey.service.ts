@@ -5,16 +5,17 @@ import { Jersey } from '../../auth/models/jersey.model';
   providedIn: 'root',
 })
 export class JerseyService {
-  private STORAGE_KEY = 'jerseys';
+  private readonly STORAGE_KEY = 'jerseys';
 
   private jersey = signal<Jersey[]>(this.loadJerseys());
+
   jerseys = this.jersey.asReadonly();
 
-  // Charger depuis localStorage au démarrage
+  /** Charger depuis localStorage ou valeurs par défaut */
   private loadJerseys(): Jersey[] {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data
-      ? JSON.parse(data)
+      ? (JSON.parse(data) as Jersey[])
       : [
           {
             id: 1,
@@ -673,15 +674,17 @@ export class JerseyService {
         ];
   }
 
-  // private saveJerseys() {
-  //   localStorage.setItem('jerseys', JSON.stringify(this.jersey()));
-  // }
-  private saveJerseys() {
+  private saveJerseys(): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.jersey()));
   }
 
+  deleteJersey(id: number) {
+    this.jersey.update((list) => list.filter((j) => j.id !== id));
+    this.saveJerseys();
+  }
+
   getAllJersey(): Jersey[] {
-    return this.jersey();
+    return this.jerseys();
   }
 
   // Diminue le stock d’un maillot
@@ -700,17 +703,19 @@ export class JerseyService {
     });
   }
 
-  // addJersey(newJersey: Omit<Jersey, 'id'>) {
-  //   const id = Math.max(0, ...this.jersey().map(j => j.id)) + 1;
-  //   this.jersey.update(list => [...list, { ...newJersey, id }]);
-  // }
-
-  addJersey(newJersey: Jersey) {
+  addJersey(newJersey: Omit<Jersey, 'id' | 'blocked'>) {
     const id = Math.max(0, ...this.jersey().map((j) => j.id)) + 1;
-    this.jersey.update((list) => {
-      const updated = [...list, { ...newJersey, id }];
-      this.saveJerseys(); // <--- Sauvegarde directe
-      return updated;
-    });
+    const jersey: Jersey = { ...newJersey, id, blocked: false };
+    this.jersey.update((list) => [...list, jersey]);
+    this.saveJerseys();
+  }
+
+  toggleBlockJersey(jerseyId: number) {
+    const jerseys = this.getAllJersey();
+    const index = jerseys.findIndex((j) => j.id === jerseyId);
+    if (index !== -1) {
+      jerseys[index].blocked = !jerseys[index].blocked;
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(jerseys));
+    }
   }
 }
