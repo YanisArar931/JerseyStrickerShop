@@ -158,7 +158,7 @@ interface Championnat {
               class="h-24 w-24 object-contain sm:h-28 sm:w-28 lg:h-32 lg:w-32"
             />
             <span class="mt-2 text-sm text-gray-700 text-center">
-              {{ jersey.name | translate }}</span
+              {{ jersey.team | translate }} {{ jersey.name | translate }}</span
             >
             <span class="mt-1 text-sm font-medium text-gray-500">
               {{ jersey.price | currency: 'EUR' }}

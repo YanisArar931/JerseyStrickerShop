@@ -363,7 +363,6 @@ export class AdminComponent implements OnInit {
   async deleteJersey(jerseyId: number) {
     if (confirm('Supprimer ce maillot ?')) {
       this.jerseyService.deleteJersey(jerseyId);
-      // Recharge la liste des maillots pour mettre à jour la table
       const jerseys = await this.jerseyService.getAllJersey();
       this.maillots.set(jerseys);
     }
