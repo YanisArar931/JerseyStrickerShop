@@ -51,11 +51,11 @@ import { CommonModule } from '@angular/common';
                   <a routerLink="/panier" class="hover:text-green-600 relative inline-block">
                     <img src="assets/icon/panier.png" alt="Panier" class="h-6 w-6 sm:h-8 sm:w-8" />
 
-                    @if (panierService.count > 0) {
+                    @if (panierService.count() > 0) {
                       <span
                         class="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
                       >
-                        {{ panierService.count }}
+                        {{ panierService.count() }}
                       </span>
                     }
                   </a>

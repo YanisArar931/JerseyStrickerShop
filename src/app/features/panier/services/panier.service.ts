@@ -1,45 +1,57 @@
-import { Injectable, signal, effect, computed } from '@angular/core';
+import { Injectable, signal, effect, computed, inject } from '@angular/core';
 import { Jersey } from '../../auth/models/jersey.model';
+import { AuthService } from '../../auth/services/auth.services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PanierService {
-  private readonly STORAGE_KEY = 'panier';
+  private authService = inject(AuthService);
+  private _userId = signal<number | null>(null);
 
-  private _panierItems = signal<{ jersey: Jersey; size: string }[]>(this.loadFromStorage());
+  private _panierItems = signal<{ jersey: Jersey; size: string }[]>([]);
   panierItems = this._panierItems.asReadonly();
 
-  get count(): number {
-    return this._panierItems().length;
-  }
-
-  total = computed(() => this._panierItems().reduce((sum, item) => sum + item.jersey.price, 0));
+  count = computed(() => this._panierItems().length);
+  total = computed(() => this._panierItems().reduce((sum, i) => sum + (i.jersey?.price ?? 0), 0));
 
   constructor() {
     effect(() => {
-      this.saveToStorage(this._panierItems());
+      const user = this.authService.getCurrentUser();
+      const userId = user?.id ?? null;
+
+      if (userId !== this._userId()) {
+        this._userId.set(userId);
+        this._panierItems.set(userId ? this.loadFromStorage(userId) : []);
+      }
+    });
+
+    effect(() => {
+      const userId = this._userId();
+      if (userId !== null) {
+        this.saveToStorage(userId, this._panierItems());
+      }
     });
   }
 
   addToPanier(jersey: Jersey, size: string) {
-    this._panierItems.update((current) => [...current, { jersey, size }]);
+    this._panierItems.update((list) => [...list, { jersey, size }]);
   }
 
   removeFromPanier(index: number) {
-    this._panierItems.update((current) => current.filter((_, i) => i !== index));
+    this._panierItems.update((list) => list.filter((_, i) => i !== index));
   }
 
   clearPanier() {
     this._panierItems.set([]);
   }
 
-  private saveToStorage(items: { jersey: Jersey; size: string }[]) {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
+  private saveToStorage(userId: number, items: { jersey: Jersey; size: string }[]) {
+    localStorage.setItem(`panier_user_${userId}`, JSON.stringify(items));
   }
 
-  private loadFromStorage(): { jersey: Jersey; size: string }[] {
-    const data = localStorage.getItem(this.STORAGE_KEY);
+  private loadFromStorage(userId: number): { jersey: Jersey; size: string }[] {
+    const data = localStorage.getItem(`panier_user_${userId}`);
     return data ? JSON.parse(data) : [];
   }
 }

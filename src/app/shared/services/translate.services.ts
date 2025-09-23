@@ -50,7 +50,7 @@ export class TranslateService {
       championship: 'Championnats',
       image: 'Image',
       unblock: 'Débloquer',
-      block: 'Bloqué',
+      block: 'Bloquer',
     },
     en: {
       panier: 'Add to Cart',
@@ -95,8 +95,8 @@ export class TranslateService {
       add: 'Add',
       championship: 'Championship',
       image: 'Image',
-      unblock: 'Unblocked',
-      block: 'Blocked',
+      unblock: 'Unblock',
+      block: 'To block',
     },
   };
 

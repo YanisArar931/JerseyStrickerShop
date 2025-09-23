@@ -27,7 +27,9 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
           class="h-16 w-16 object-contain mr-4"
         />
         <div class="flex-1">
-          <h3 class="font-semibold">{{ item.jersey.name | translate }}</h3>
+          <h3 class="font-semibold">
+            {{ item.jersey.team | translate }} {{ item.jersey.name | translate }}
+          </h3>
           <p class="text-sm text-gray-500">{{ 'size' | translate }} : {{ item.size }}</p>
           <p class="text-sm font-medium">
             {{ item.jersey.price | currency: 'EUR' }}
@@ -40,7 +42,7 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
           {{ 'delete' | translate }}
         </button>
       </div>
-      <div>
+      <div *ngIf="panierService.panierItems().length > 0" class="mt-6">
         <span>Total : </span>
         <span>{{ panierService.total() }} €</span>
       </div>
