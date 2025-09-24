@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PanierService } from '../../panier/services/panier.service';
 import { JerseyService } from '../../jersey/services/jersey.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-panier',
@@ -50,7 +51,7 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
       <div *ngIf="panierService.panierItems().length > 0" class="mt-6">
         <button
           class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
-          (click)="payer()"
+          (click)="goToPayment()"
         >
           {{ 'payer' | translate }}
         </button>
@@ -68,16 +69,9 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 export class PanierComponent {
   panierService = inject(PanierService);
   jerseyService = inject(JerseyService);
+  private router = inject(Router);
 
-  payer() {
-    // Décrémenter le stock de chaque maillot du panier
-    for (const item of this.panierService.panierItems()) {
-      this.jerseyService.decrementStock(item.jersey.id, 1);
-    }
-
-    // Vider le panier après paiement
-    this.panierService.clearPanier();
-
-    alert('✅ Paiement validé !');
+  goToPayment() {
+    this.router.navigate(['/payment']);
   }
 }

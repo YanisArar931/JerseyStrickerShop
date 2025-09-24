@@ -7,14 +7,19 @@ import { Jersey } from '../../auth/models/jersey.model';
 export class JerseyService {
   private readonly STORAGE_KEY = 'jerseys';
 
-  private jersey = signal<Jersey[]>(this.loadJerseys());
+  // Signal interne (privé)
+  private jerseys = signal<Jersey[]>(this.loadFromStorage());
 
-  jerseys = this.jersey.asReadonly();
+  // 🔹 Sauvegarde dans localStorage
+  private saveToStorage() {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.jerseys()));
+  }
 
-  private loadJerseys(): Jersey[] {
+  // 🔹 Chargement depuis localStorage
+  private loadFromStorage(): Jersey[] {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data
-      ? (JSON.parse(data) as Jersey[])
+      ? JSON.parse(data)
       : [
           {
             id: 1,
@@ -673,47 +678,42 @@ export class JerseyService {
         ];
   }
 
-  private saveJerseys(): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.jersey()));
-  }
-
-  deleteJersey(id: number) {
-    this.jersey.update((list) => list.filter((j) => j.id !== id));
-    this.saveJerseys();
-  }
-
+  // ✅ Récupération de tous les maillots (lecture seule)
   getAllJersey(): Jersey[] {
     return this.jerseys();
   }
 
-  decrementStock(id: number, quantity = 1) {
-    const updated = this.jersey().map((j) =>
-      j.id === id ? { ...j, stock: j.stock - quantity } : j,
+  // ✅ Ajouter un maillot
+  addJersey(jersey: Jersey) {
+    this.jerseys.update((list) => [...list, jersey]);
+    this.saveToStorage();
+  }
+
+  // ✅ Modifier un maillot
+  updateJersey(id: number, updated: Partial<Jersey>) {
+    this.jerseys.update((list) => list.map((j) => (j.id === id ? { ...j, ...updated } : j)));
+    this.saveToStorage();
+  }
+
+  // ✅ Supprimer un maillot
+  deleteJersey(id: number) {
+    this.jerseys.update((list) => list.filter((j) => j.id !== id));
+    this.saveToStorage();
+  }
+
+  // ✅ Bloquer / débloquer un maillot
+  toggleBlockJersey(id: number) {
+    this.jerseys.update((list) =>
+      list.map((j) => (j.id === id ? { ...j, blocked: !j.blocked } : j)),
     );
-    this.jersey.set(updated);
+    this.saveToStorage();
   }
 
-  updateJersey(id: number, data: { price?: number; stock?: number }) {
-    this.jersey.update((jers: Jersey[]) => {
-      const updated = jers.map((j: Jersey) => (j.id === id ? { ...j, ...data } : j));
-      localStorage.setItem('jerseys', JSON.stringify(updated));
-      return updated;
-    });
-  }
-
-  addJersey(newJersey: Omit<Jersey, 'id' | 'blocked'>) {
-    const id = Math.max(0, ...this.jersey().map((j) => j.id)) + 1;
-    const jersey: Jersey = { ...newJersey, id, blocked: false };
-    this.jersey.update((list) => [...list, jersey]);
-    this.saveJerseys();
-  }
-
-  toggleBlockJersey(jerseyId: number) {
-    const jerseys = this.getAllJersey();
-    const index = jerseys.findIndex((j) => j.id === jerseyId);
-    if (index !== -1) {
-      jerseys[index].blocked = !jerseys[index].blocked;
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(jerseys));
-    }
+  // ✅ Décrémenter le stock (paiement, etc.)
+  decrementStock(id: number, quantity = 1) {
+    this.jerseys.update((list) =>
+      list.map((j) => (j.id === id ? { ...j, stock: Math.max(0, j.stock - quantity) } : j)),
+    );
+    this.saveToStorage();
   }
 }

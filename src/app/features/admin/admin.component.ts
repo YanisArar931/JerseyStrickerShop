@@ -416,8 +416,4 @@ export class AdminComponent implements OnInit {
     this.jerseyService.toggleBlockJersey(id);
     this.loadMaillots();
   }
-
-  get visibleJerseys() {
-    return this.jerseyService.jerseys().filter((j) => !j.blocked);
-  }
 }

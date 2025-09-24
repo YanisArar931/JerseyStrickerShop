@@ -239,7 +239,6 @@ export class JerseyListComponent implements OnInit {
   addToCart(jersey: Jersey | null) {
     if (!jersey || !this.selectedSize) return;
     console.log('Ajout au panier :', jersey, 'Taille :', this.selectedSize);
-    alert(`"${jersey.name}" (Taille: ${this.selectedSize}) a été ajouté au panier !`);
   }
 
   trackByLogo(index: number, item: { logo: string }) {
@@ -253,7 +252,6 @@ export class JerseyListComponent implements OnInit {
   addToPanier(jersey: Jersey | null) {
     if (!jersey || !this.selectedSize) return;
     this.panierService.addToPanier(jersey, this.selectedSize);
-    alert(`"${jersey.name}" (Taille: ${this.selectedSize}) a été ajouté au panier !`);
     this.selectedJersey.set(null);
   }
 
@@ -324,8 +322,4 @@ export class JerseyListComponent implements OnInit {
       ],
     },
   ];
-
-  get availableJerseys(): Jersey[] {
-    return this.jerseyService.jerseys().filter((j) => !j.blocked);
-  }
 }

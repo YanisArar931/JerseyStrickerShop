@@ -25,4 +25,8 @@ export const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
+  {
+    path: 'payment',
+    loadChildren: () => import('./features/payment/payment.routes').then((m) => m.PAYMENT_ROUTES),
+  },
 ];
