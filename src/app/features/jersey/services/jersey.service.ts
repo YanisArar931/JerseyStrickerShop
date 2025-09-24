@@ -10,12 +10,12 @@ export class JerseyService {
   // Signal interne (privé)
   private jerseys = signal<Jersey[]>(this.loadFromStorage());
 
-  // 🔹 Sauvegarde dans localStorage
+  // Sauvegarde dans localStorage
   private saveToStorage() {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.jerseys()));
   }
 
-  // 🔹 Chargement depuis localStorage
+  // Chargement depuis localStorage
   private loadFromStorage(): Jersey[] {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data
@@ -678,30 +678,30 @@ export class JerseyService {
         ];
   }
 
-  // ✅ Récupération de tous les maillots (lecture seule)
+  // Récupération de tous les maillots (lecture seule)
   getAllJersey(): Jersey[] {
     return this.jerseys();
   }
 
-  // ✅ Ajouter un maillot
+  // Ajouter un maillot
   addJersey(jersey: Jersey) {
     this.jerseys.update((list) => [...list, jersey]);
     this.saveToStorage();
   }
 
-  // ✅ Modifier un maillot
+  // Modifier un maillot
   updateJersey(id: number, updated: Partial<Jersey>) {
     this.jerseys.update((list) => list.map((j) => (j.id === id ? { ...j, ...updated } : j)));
     this.saveToStorage();
   }
 
-  // ✅ Supprimer un maillot
+  // Supprimer un maillot
   deleteJersey(id: number) {
     this.jerseys.update((list) => list.filter((j) => j.id !== id));
     this.saveToStorage();
   }
 
-  // ✅ Bloquer / débloquer un maillot
+  // Bloquer / débloquer un maillot
   toggleBlockJersey(id: number) {
     this.jerseys.update((list) =>
       list.map((j) => (j.id === id ? { ...j, blocked: !j.blocked } : j)),
@@ -709,7 +709,7 @@ export class JerseyService {
     this.saveToStorage();
   }
 
-  // ✅ Décrémenter le stock (paiement, etc.)
+  // Décrémenter le stock
   decrementStock(id: number, quantity = 1) {
     this.jerseys.update((list) =>
       list.map((j) => (j.id === id ? { ...j, stock: Math.max(0, j.stock - quantity) } : j)),

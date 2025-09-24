@@ -2,14 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { TranslatePipe } from './translate.pipe';
 import { TranslateService } from '../services/translate.services';
 
-// 🔹 Mock du service
 class MockTranslateService {
   translate(key: string): string {
     const dict: Record<string, string> = {
       panier: 'Panier',
       bienvenu: 'Bienvenue',
     };
-    return dict[key] || key; // si clé inconnue, renvoie la clé
+    return dict[key] || key;
   }
 }
 
@@ -18,13 +17,9 @@ describe('TranslatePipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: TranslateService, useClass: MockTranslateService },
-        TranslatePipe, // 🔹 important pour inject()
-      ],
+      providers: [{ provide: TranslateService, useClass: MockTranslateService }, TranslatePipe],
     });
 
-    // Création de la pipe dans un contexte d'injection
     pipe = TestBed.inject(TranslatePipe);
   });
 

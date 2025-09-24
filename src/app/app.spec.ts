@@ -1,14 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        App,
-        RouterTestingModule, // 🔹 Permet de mocker Router et ActivatedRoute
-      ],
+      imports: [App],
     }).compileComponents();
   });
 
