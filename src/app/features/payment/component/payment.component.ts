@@ -76,12 +76,26 @@ import { Jersey } from '../../auth/models/jersey.model';
               </div>
             </div>
 
+            <!-- Bouton de paiement -->
             <button
               type="submit"
-              class="w-full bg-green-600 text-white py-3 rounded-md font-semibold hover:bg-green-700"
+              [disabled]="isLoading"
+              class="w-full bg-green-600 text-white py-3 rounded-md font-semibold hover:bg-green-700 disabled:opacity-50"
             >
-              Commander
+              <span *ngIf="!isLoading">Commander</span>
+              <span *ngIf="isLoading">Paiement en cours...</span>
             </button>
+
+            <!-- Pop-up de succès -->
+            <div
+              *ngIf="showSuccessPopup"
+              class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-500"
+            >
+              <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                <h2 class="text-xl font-bold mb-2">Paiement réussi !</h2>
+                <p>Merci pour votre achat !</p>
+              </div>
+            </div>
           </form>
         </div>
 
@@ -109,6 +123,9 @@ export class PaymentComponent implements OnInit {
 
   panierItems: { jersey: Jersey; size: string }[] = [];
 
+  isLoading = false; // état du paiement
+  showSuccessPopup = false; // pour afficher le pop-up
+
   private panierService = inject(PanierService);
   private jerseyService = inject(JerseyService);
   private router = inject(Router);
@@ -121,21 +138,33 @@ export class PaymentComponent implements OnInit {
     return this.panierItems.reduce((sum, item) => sum + item.jersey.price, 0);
   }
 
-  submitPayment(form: NgForm) {
-    if (!form.valid) {
-      alert('Veuillez remplir correctement tous les champs.');
-      return;
+  async submitPayment(form: NgForm) {
+    if (!form.valid) return;
+
+    this.isLoading = true;
+
+    try {
+      // Simuler un paiement asynchrone
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Décrémenter le stock
+      this.panierItems.forEach((item) => {
+        this.jerseyService.decrementStock(item.jersey.id, 1);
+      });
+
+      // Vider le panier
+      this.panierService.clearPanier();
+
+      // Afficher le pop-up
+      this.showSuccessPopup = true;
+
+      // Fermer automatiquement après 3,5 secondes
+      setTimeout(() => {
+        this.showSuccessPopup = false;
+        this.router.navigate(['/jersey']);
+      }, 3500);
+    } finally {
+      this.isLoading = false;
     }
-
-    // Décrémenter le stock (persistant)
-    this.panierItems.forEach((item) => {
-      this.jerseyService.decrementStock(item.jersey.id, 1);
-    });
-
-    // Vider le panier
-    this.panierService.clearPanier();
-
-    alert('Paiement effectué avec succès !');
-    this.router.navigate(['/jersey']);
   }
 }

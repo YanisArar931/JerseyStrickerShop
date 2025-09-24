@@ -172,10 +172,14 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
                       </button>
 
                       <button
-                        class="px-3 py-1 rounded text-red-700"
+                        class="h-8 w-9 p-2 rounded hover:bg-red-500 transition-colors duration-200"
                         (click)="deleteJersey(jersey.id)"
                       >
-                        {{ 'delete' | translate }}
+                        <img
+                          src="assets/icon/dustbin.png"
+                          alt="Panier"
+                          class="h-5 w-6 sm:h-6 sm:w-5"
+                        />
                       </button>
                     </td>
                   </tr>
@@ -192,11 +196,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
       @if (activeTab() === 'addjerseys') {
         <div class="bg-white shadow rounded-lg p-6">
           <form (ngSubmit)="addJersey()" #jerseyForm="ngForm" class="space-y-4">
-            <!-- Championnat -->
             <div>
-              <label for="championship" class="block text-sm font-medium mb-1">
-                {{ 'championship' | translate }}
-              </label>
+              <label for="championship" class="block text-sm font-medium mb-1">{{
+                'championship' | translate
+              }}</label>
               <select
                 id="championship"
                 [(ngModel)]="newJersey.championship"
@@ -209,11 +212,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               </select>
             </div>
 
-            <!-- Choix équipe filtrée -->
             <div>
-              <label for="team" class="block text-sm font-medium mb-1">
-                {{ 'team' | translate }}
-              </label>
+              <label for="team" class="block text-sm font-medium mb-1">{{
+                'team' | translate
+              }}</label>
               <select
                 id="team"
                 [(ngModel)]="newJersey.team"
@@ -225,11 +227,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               </select>
             </div>
 
-            <!-- Image -->
             <div>
-              <label for="image" class="block text-sm font-medium mb-1">
-                {{ 'image' | translate }}
-              </label>
+              <label for="image" class="block text-sm font-medium mb-1">{{
+                'image' | translate
+              }}</label>
               <img
                 *ngIf="newJersey.image"
                 [src]="newJersey.image"
@@ -244,11 +245,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               />
             </div>
 
-            <!-- Type -->
             <div>
-              <label for="name" class="block text-sm font-medium mb-1">
-                {{ 'type' | translate }}
-              </label>
+              <label for="name" class="block text-sm font-medium mb-1">{{
+                'type' | translate
+              }}</label>
               <select
                 id="name"
                 [(ngModel)]="newJersey.name"
@@ -260,11 +260,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               </select>
             </div>
 
-            <!-- Prix -->
             <div>
-              <label for="price" class="block text-sm font-medium mb-1">
-                {{ 'price' | translate }}
-              </label>
+              <label for="price" class="block text-sm font-medium mb-1">{{
+                'price' | translate
+              }}</label>
               <input
                 id="price"
                 type="number"
@@ -275,11 +274,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
               />
             </div>
 
-            <!-- Stock -->
             <div>
-              <label for="stock" class="block text-sm font-medium mb-1">
-                {{ 'stock' | translate }}
-              </label>
+              <label for="stock" class="block text-sm font-medium mb-1">{{
+                'stock' | translate
+              }}</label>
               <input
                 id="stock"
                 type="number"
@@ -292,7 +290,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
             <button
               type="submit"
-              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              class="bg-green-600 text-white px-4 py-2 rounded font-hover:bg-green-700"
               [disabled]="jerseyForm.invalid"
             >
               {{ 'add' | translate }}
@@ -300,6 +298,56 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
           </form>
         </div>
       }
+
+      <!-- Modal édition maillot -->
+      <div
+        *ngIf="selectedJersey()"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <div class="bg-white rounded-lg p-6 w-96 relative shadow-lg">
+          <h2 class="text-xl font-bold mb-4">{{ 'modify' | translate }}</h2>
+
+          <label for="editPrice" class="block mb-2">{{ 'price' | translate }} (€)</label>
+          <input
+            id="editPrice"
+            type="number"
+            [(ngModel)]="editPrice"
+            class="w-full border rounded px-2 py-1 mb-4"
+          />
+
+          <label for="editStock" class="block mb-2">{{ 'stock' | translate }}</label>
+          <input
+            id="editStock"
+            type="number"
+            [(ngModel)]="editStock"
+            class="w-full border rounded px-2 py-1 mb-4"
+          />
+
+          <div class="flex justify-end gap-2">
+            <button class="px-4 py-2 bg-gray-200 rounded" (click)="closeModal()">
+              {{ 'cancel' | translate }}
+            </button>
+            <button class="px-4 py-2 bg-green-600 text-white rounded" (click)="saveEdit()">
+              {{ 'save' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pop-up succès modification -->
+      <div
+        *ngIf="showEditSuccess()"
+        class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500"
+      >
+        {{ 'jersey_updated' | translate }}
+      </div>
+      <!-- Pop-up succès ajout -->
+      <div
+        *ngIf="showAddSuccess()"
+        class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-1000"
+      >
+        {{ 'jersey_added' | translate }}
+      </div>
     </div>
   `,
 })
@@ -307,11 +355,12 @@ export class AdminComponent implements OnInit {
   private authService = inject(AuthService);
   private jerseyService = inject(JerseyService);
   private router = inject(Router);
-  filteredTeams = signal<string[]>([]);
 
+  filteredTeams = signal<string[]>([]);
   activeTab = signal<'users' | 'jerseys' | 'addjerseys'>('users');
   users = signal<User[]>([]);
   maillots = signal<Jersey[]>([]);
+  showAddSuccess = signal(false);
   championships = ['Ligue 1', 'Premier League', 'Serie A', 'La Liga', 'Bundesliga'];
   name = ['Domicile', 'Extérieur', 'Third'];
 
@@ -331,6 +380,12 @@ export class AdminComponent implements OnInit {
     type: '',
     image: undefined,
   };
+
+  // Modal édition
+  selectedJersey = signal<Jersey | null>(null);
+  editPrice = signal<number>(0);
+  editStock = signal<number>(0);
+  showEditSuccess = signal(false);
 
   async ngOnInit() {
     const currentUser = await this.authService.getCurrentUser();
@@ -369,17 +424,30 @@ export class AdminComponent implements OnInit {
   }
 
   editJersey(jersey: Jersey) {
-    const newPrice = prompt('Nouveau prix (€) :', jersey.price.toString());
-    const newStock = prompt('Nouveau stock :', jersey.stock.toString());
+    this.selectedJersey.set(jersey);
+    this.editPrice.set(jersey.price);
+    this.editStock.set(jersey.stock);
+  }
 
-    if (newPrice !== null && newStock !== null) {
-      this.jerseyService.updateJersey(jersey.id, {
-        price: parseFloat(newPrice),
-        stock: parseInt(newStock, 10),
-      });
+  saveEdit() {
+    const jersey = this.selectedJersey();
+    if (!jersey) return;
 
-      this.loadMaillots();
-    }
+    this.jerseyService.updateJersey(jersey.id, {
+      price: this.editPrice(),
+      stock: this.editStock(),
+    });
+
+    this.selectedJersey.set(null);
+    this.loadMaillots();
+
+    // Show success pop-up
+    this.showEditSuccess.set(true);
+    setTimeout(() => this.showEditSuccess.set(false), 3000);
+  }
+
+  closeModal() {
+    this.selectedJersey.set(null);
   }
 
   onFileSelected(event: Event) {
@@ -401,15 +469,15 @@ export class AdminComponent implements OnInit {
     this.newJersey = { championship: '', team: '', price: 0, stock: 0, image: undefined };
     this.loadMaillots();
     this.activeTab.set('jerseys');
+
+    // ✅ Affiche la pop-up succès
+    this.showAddSuccess.set(true);
+    setTimeout(() => this.showAddSuccess.set(false), 2000); // disparaît après 2s
   }
 
   onChampionshipChange(championship: string) {
     this.filteredTeams.set(this.teamsByChampionship[championship] || []);
     this.newJersey.team = '';
-  }
-
-  blockJersey(id: number) {
-    this.jerseyService.toggleBlockJersey(id);
   }
 
   toggleBlock(id: number) {

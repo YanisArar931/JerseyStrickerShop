@@ -51,6 +51,11 @@ export class TranslateService {
       image: 'Image',
       unblock: 'Débloquer',
       block: 'Bloquer',
+      cancel: 'Annuler',
+      save: 'Enregistrer',
+      are_you_sure: 'Vous êtes sur ?',
+      jersey_added: 'Le maillot a bien été ajouté !',
+      jersey_updated: 'Le maillot a été mis à jour !',
     },
     en: {
       panier: 'Add to Cart',
@@ -97,6 +102,11 @@ export class TranslateService {
       image: 'Image',
       unblock: 'Unblock',
       block: 'To block',
+      cancel: 'Cancel',
+      save: 'Save',
+      are_you_sure: 'Are you sure ?',
+      jersey_added: 'The jersey has been added !',
+      jersey_updated: 'The jersey has been updated !',
     },
   };
 
