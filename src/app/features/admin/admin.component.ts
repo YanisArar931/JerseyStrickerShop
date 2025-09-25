@@ -51,86 +51,87 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
       @if (activeTab() === 'users') {
         <div class="bg-white shadow rounded-lg p-6">
           @if (users().length > 0) {
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-100">
-                <tr>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'name' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'mail' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'role' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'action' | translate }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200">
-                @for (user of users(); track user.id) {
-                  <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                      {{ user.name | uppercase }}
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-700">{{ user.email }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ user.role }}</td>
-                    <td class="px-6 py-4 text-sm">
-                      @if (user.role !== 'admin') {
-                        <!-- bouton supprimer utilisateur -->
-                        <button
-                          (click)="confirmDeleteUser(user.id)"
-                          class="p-2 rounded hover:bg-red-500 transition-colors duration-200"
-                        >
-                          <img src="assets/icon/dustbin.png" alt="Supprimer" class="h-5 w-5" />
-                        </button>
-
-                        <!-- popup confirmation suppression utilisateur -->
-                        <div
-                          *ngIf="showDeleteUserConfirm"
-                          class="fixed inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center z-50"
-                        >
-                          <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
-                            <h2 class="text-xl font-bold mb-4 text-red-600">Confirmation</h2>
-                            <p class="text-gray-700 mb-6">
-                              Voulez-vous vraiment supprimer cet utilisateur ?
-                            </p>
-
-                            <div class="flex justify-end gap-2">
-                              <button
-                                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                                (click)="cancelDeleteUser()"
-                              >
-                                Annuler
-                              </button>
-                              <button
-                                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                (click)="deleteUserConfirmed()"
-                              >
-                                Supprimer
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      } @else {
-                        <span class="text-gray-400 italic">{{
-                          'protected_admin' | translate
-                        }}</span>
-                      }
-                    </td>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'name' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'mail' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'role' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'action' | translate }}
+                    </th>
                   </tr>
-                }
-              </tbody>
-            </table>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  @for (user of users(); track user.id) {
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                        {{ user.name | uppercase }}
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-700">{{ user.email }}</td>
+                      <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ user.role }}</td>
+                      <td class="px-6 py-4 text-sm">
+                        @if (user.role !== 'admin') {
+                          <button
+                            (click)="confirmDeleteUser(user.id)"
+                            class="p-2 rounded hover:bg-red-500 transition-colors duration-200"
+                          >
+                            <img src="assets/icon/dustbin.png" alt="Supprimer" class="h-5 w-5" />
+                          </button>
+
+                          @if (showDeleteUserConfirm) {
+                            <div
+                              class="fixed inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center z-50"
+                            >
+                              <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+                                <h2 class="text-xl font-bold mb-4 text-red-600">Confirmation</h2>
+                                <p class="text-gray-700 mb-6">
+                                  Voulez-vous vraiment supprimer cet utilisateur ?
+                                </p>
+
+                                <div class="flex justify-end gap-2">
+                                  <button
+                                    class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                                    (click)="cancelDeleteUser()"
+                                  >
+                                    Annuler
+                                  </button>
+                                  <button
+                                    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                    (click)="deleteUserConfirmed()"
+                                  >
+                                    Supprimer
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          }
+                        } @else {
+                          <span class="text-gray-400 italic">{{
+                            'protected_admin' | translate
+                          }}</span>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
           } @else {
             <p class="text-gray-500 text-sm">Aucun utilisateur trouvé</p>
           }
@@ -141,103 +142,118 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
       @if (activeTab() === 'jerseys') {
         <div class="bg-white shadow rounded-lg p-6">
           @if (maillots().length > 0) {
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-100">
-                <tr>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'team' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'type' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'price' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'stock' | translate }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {{ 'action' | translate }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200">
-                @for (jersey of maillots(); track jersey.id) {
-                  <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ jersey.team }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-700 capitalize">
-                      {{ jersey.name | translate }}
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.price }} €</td>
-                    <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.stock }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-700">
-                      <button
-                        class="text-blue-600 hover:text-blue-900 font-medium"
-                        (click)="editJersey(jersey)"
-                      >
-                        {{ 'modify' | translate }}
-                      </button>
-
-                      <button
-                        class="px-3 py-1 rounded text-gray-700"
-                        [ngClass]="
-                          jersey.blocked
-                            ? 'text-green-600 hover:text-green-700'
-                            : 'text-red-600 hover:text-red-700'
-                        "
-                        (click)="toggleBlock(jersey.id)"
-                      >
-                        {{ jersey.blocked ? ('unblock' | translate) : ('block' | translate) }}
-                      </button>
-
-                      <button
-                        class="flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 
-                              hover:bg-red-500 hover:scale-110 active:scale-95 
-                              transition-all duration-200 "
-                        (click)="deleteJersey(jersey.id)"
-                      >
-                        <img src="assets/icon/dustbin.png" alt="Supprimer" class="h-5 w-5" />
-                      </button>
-
-                      <!-- Pop-up confirmation suppression maillot -->
-                      <div
-                        *ngIf="showDeleteConfirm()"
-                        class="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50"
-                      >
-                        <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
-                          <h2 class="text-xl font-bold mb-4 text-red-600">Confirmation</h2>
-                          <p class="text-gray-700 mb-6">
-                            Voulez-vous vraiment supprimer ce maillot ?
-                          </p>
-
-                          <div class="flex justify-end gap-2">
-                            <button class="px-4 py-2 bg-gray-200 rounded" (click)="cancelDelete()">
-                              Annuler
-                            </button>
-                            <button
-                              class="px-4 py-2 bg-red-600 text-white rounded"
-                              (click)="confirmDelete()"
-                            >
-                              Supprimer
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'team' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'type' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'price' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'stock' | translate }}
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                      {{ 'action' | translate }}
+                    </th>
                   </tr>
-                }
-              </tbody>
-            </table>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  @for (jersey of maillots(); track jersey.id) {
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                        <img
+                          [src]="jersey.image"
+                          [alt]="jersey.name"
+                          class="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                        />
+                      </td>
+
+                      <td class="px-6 py-4 text-sm text-gray-700 capitalize">
+                        {{ jersey.name | translate }}
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.price }} €</td>
+                      <td class="px-6 py-4 text-sm text-gray-700">{{ jersey.stock }}</td>
+                      <td class="px-6 py-4 text-sm text-gray-700">
+                        <button
+                          class="text-blue-600 hover:text-blue-900 font-medium"
+                          (click)="editJersey(jersey)"
+                        >
+                          {{ 'modify' | translate }}
+                        </button>
+
+                        <button
+                          class="px-3 py-1 rounded text-gray-700"
+                          [ngClass]="
+                            jersey.blocked
+                              ? 'text-green-600 hover:text-green-700'
+                              : 'text-red-600 hover:text-red-700'
+                          "
+                          (click)="toggleBlock(jersey.id)"
+                        >
+                          {{ jersey.blocked ? ('unblock' | translate) : ('block' | translate) }}
+                        </button>
+
+                        <button
+                          class="flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 
+                           hover:bg-red-500 hover:scale-110 active:scale-95 
+                           transition-all duration-200"
+                          (click)="deleteJersey(jersey.id)"
+                        >
+                          <img
+                            src="assets/icon/dustbin.png"
+                            alt="Supprimer"
+                            class="h-5 w-5 object-contain"
+                          />
+                        </button>
+                        @if (showDeleteConfirm()) {
+                          <div
+                            class="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50"
+                          >
+                            <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+                              <h2 class="text-xl font-bold mb-4 text-red-600">Confirmation</h2>
+                              <p class="text-gray-700 mb-6">
+                                Voulez-vous vraiment supprimer ce maillot ?
+                              </p>
+
+                              <div class="flex justify-end gap-2">
+                                <button
+                                  class="px-4 py-2 bg-gray-200 rounded"
+                                  (click)="cancelDelete()"
+                                >
+                                  Annuler
+                                </button>
+                                <button
+                                  class="px-4 py-2 bg-red-600 text-white rounded"
+                                  (click)="confirmDelete()"
+                                >
+                                  Supprimer
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
           } @else {
             <p class="text-gray-500 text-sm">{{ 'no_jerseys' | translate }}</p>
           }
@@ -386,14 +402,12 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
         </div>
       </div>
 
-      <!-- Pop-up succès modification -->
       <div
         *ngIf="showEditSuccess()"
         class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500"
       >
         {{ 'jersey_updated' | translate }}
       </div>
-      <!-- Pop-up succès ajout -->
       <div
         *ngIf="showAddSuccess()"
         class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-1000"
@@ -435,7 +449,6 @@ export class AdminComponent implements OnInit {
     image: undefined,
   };
 
-  // Modal édition
   selectedJersey = signal<Jersey | null>(null);
   editPrice = signal<number>(0);
   editStock = signal<number>(0);
@@ -470,7 +483,7 @@ export class AdminComponent implements OnInit {
   deleteUserConfirmed() {
     if (this.selectedUserId === null) return;
     this.authService.deleteUser(this.selectedUserId).subscribe(() => {
-      this.loadUsers(); // recharge la liste
+      this.loadUsers();
       this.showDeleteUserConfirm = false;
       this.selectedUserId = null;
     });
@@ -500,7 +513,6 @@ export class AdminComponent implements OnInit {
     this.jerseyToDelete = null;
   }
 
-  // Ajoute ces propriétés
   showDeleteConfirm = signal(false);
   jerseyToDelete: number | null = null;
 
@@ -522,7 +534,6 @@ export class AdminComponent implements OnInit {
     this.selectedJersey.set(null);
     this.loadMaillots();
 
-    // Show success pop-up
     this.showEditSuccess.set(true);
     setTimeout(() => this.showEditSuccess.set(false), 3000);
   }
@@ -551,7 +562,6 @@ export class AdminComponent implements OnInit {
     this.loadMaillots();
     this.activeTab.set('jerseys');
 
-    // ✅ Affiche la pop-up succès
     this.showAddSuccess.set(true);
     setTimeout(() => this.showAddSuccess.set(false), 2000);
   }

@@ -89,7 +89,7 @@ interface Championnat {
         </div>
       </div>
 
-      <div class="text-lg mb-4 text-right">
+      <div class="text-lg mb-4 text-right px-4 sm:px-6 md:px-8">
         {{ 'bienvenu' | translate }} {{ currentUser?.name }}
       </div>
 
