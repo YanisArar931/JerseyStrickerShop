@@ -685,7 +685,8 @@ export class JerseyService {
 
   // Ajouter un maillot
   addJersey(jersey: Jersey) {
-    this.jerseys.update((list) => [...list, jersey]);
+    const newJersey = { ...jersey, id: jersey.id ?? Date.now() };
+    this.jerseys.update((list) => [...list, newJersey]);
     this.saveToStorage();
   }
 

@@ -86,12 +86,41 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
                     <td class="px-6 py-4 text-sm text-gray-700 capitalize">{{ user.role }}</td>
                     <td class="px-6 py-4 text-sm">
                       @if (user.role !== 'admin') {
+                        <!-- bouton supprimer utilisateur -->
                         <button
-                          (click)="deleteUser(user.id)"
-                          class="text-red-600 hover:text-red-900 font-medium"
+                          (click)="confirmDeleteUser(user.id)"
+                          class="p-2 rounded hover:bg-red-500 transition-colors duration-200"
                         >
-                          {{ 'delete' | translate }}
+                          <img src="assets/icon/dustbin.png" alt="Supprimer" class="h-5 w-5" />
                         </button>
+
+                        <!-- popup confirmation suppression utilisateur -->
+                        <div
+                          *ngIf="showDeleteUserConfirm"
+                          class="fixed inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center z-50"
+                        >
+                          <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+                            <h2 class="text-xl font-bold mb-4 text-red-600">Confirmation</h2>
+                            <p class="text-gray-700 mb-6">
+                              Voulez-vous vraiment supprimer cet utilisateur ?
+                            </p>
+
+                            <div class="flex justify-end gap-2">
+                              <button
+                                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                                (click)="cancelDeleteUser()"
+                              >
+                                Annuler
+                              </button>
+                              <button
+                                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                (click)="deleteUserConfirmed()"
+                              >
+                                Supprimer
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       } @else {
                         <span class="text-gray-400 italic">{{
                           'protected_admin' | translate
@@ -172,15 +201,38 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
                       </button>
 
                       <button
-                        class="h-8 w-9 p-2 rounded hover:bg-red-500 transition-colors duration-200"
+                        class="flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 
+                              hover:bg-red-500 hover:scale-110 active:scale-95 
+                              transition-all duration-200 "
                         (click)="deleteJersey(jersey.id)"
                       >
-                        <img
-                          src="assets/icon/dustbin.png"
-                          alt="Panier"
-                          class="h-5 w-6 sm:h-6 sm:w-5"
-                        />
+                        <img src="assets/icon/dustbin.png" alt="Supprimer" class="h-5 w-5" />
                       </button>
+
+                      <!-- Pop-up confirmation suppression maillot -->
+                      <div
+                        *ngIf="showDeleteConfirm()"
+                        class="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50"
+                      >
+                        <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+                          <h2 class="text-xl font-bold mb-4 text-red-600">Confirmation</h2>
+                          <p class="text-gray-700 mb-6">
+                            Voulez-vous vraiment supprimer ce maillot ?
+                          </p>
+
+                          <div class="flex justify-end gap-2">
+                            <button class="px-4 py-2 bg-gray-200 rounded" (click)="cancelDelete()">
+                              Annuler
+                            </button>
+                            <button
+                              class="px-4 py-2 bg-red-600 text-white rounded"
+                              (click)="confirmDelete()"
+                            >
+                              Supprimer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 }
@@ -361,6 +413,8 @@ export class AdminComponent implements OnInit {
   users = signal<User[]>([]);
   maillots = signal<Jersey[]>([]);
   showAddSuccess = signal(false);
+  selectedUserId: number | null = null;
+  showDeleteUserConfirm = false;
   championships = ['Ligue 1', 'Premier League', 'Serie A', 'La Liga', 'Bundesliga'];
   name = ['Domicile', 'Extérieur', 'Third'];
 
@@ -408,20 +462,47 @@ export class AdminComponent implements OnInit {
     this.maillots.set(jerseys);
   }
 
-  async deleteUser(userId: number) {
-    if (confirm('Supprimer cet utilisateur ?')) {
-      await this.authService.deleteUser(userId);
-      await this.loadUsers();
-    }
+  confirmDeleteUser(userId: number) {
+    this.selectedUserId = userId;
+    this.showDeleteUserConfirm = true;
+  }
+
+  deleteUserConfirmed() {
+    if (this.selectedUserId === null) return;
+    this.authService.deleteUser(this.selectedUserId).subscribe(() => {
+      this.loadUsers(); // recharge la liste
+      this.showDeleteUserConfirm = false;
+      this.selectedUserId = null;
+    });
+  }
+
+  cancelDeleteUser() {
+    this.showDeleteUserConfirm = false;
+    this.selectedUserId = null;
   }
 
   async deleteJersey(jerseyId: number) {
-    if (confirm('Supprimer ce maillot ?')) {
-      this.jerseyService.deleteJersey(jerseyId);
-      const jerseys = await this.jerseyService.getAllJersey();
-      this.maillots.set(jerseys);
+    this.jerseyToDelete = jerseyId;
+    this.showDeleteConfirm.set(true);
+  }
+
+  confirmDelete() {
+    if (this.jerseyToDelete !== null) {
+      this.jerseyService.deleteJersey(this.jerseyToDelete);
+      this.loadMaillots();
+      this.showDeleteConfirm.set(false);
+      this.jerseyToDelete = null;
     }
   }
+
+  cancelDelete() {
+    this.showDeleteConfirm.set(false);
+    this.jerseyToDelete = null;
+  }
+
+  // Ajoute ces propriétés
+  showDeleteConfirm = signal(false);
+  jerseyToDelete: number | null = null;
 
   editJersey(jersey: Jersey) {
     this.selectedJersey.set(jersey);
@@ -472,7 +553,7 @@ export class AdminComponent implements OnInit {
 
     // ✅ Affiche la pop-up succès
     this.showAddSuccess.set(true);
-    setTimeout(() => this.showAddSuccess.set(false), 2000); // disparaît après 2s
+    setTimeout(() => this.showAddSuccess.set(false), 2000);
   }
 
   onChampionshipChange(championship: string) {
