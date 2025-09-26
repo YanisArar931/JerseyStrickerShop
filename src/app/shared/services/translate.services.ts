@@ -61,8 +61,8 @@ export class TranslateService {
       command: 'Commander',
       command_inprogress: 'Commande en cours ...',
       resume: 'Résumé',
-      pay_done: 'Paiement résumé !',
-      thank_for_pay: 'Merci pour votre paiement !',
+      pay_done: 'Paiement réussi !',
+      thank_for_pay: 'Merci pour votre achat !',
     },
     en: {
       panier: 'Add to Cart',
@@ -120,7 +120,7 @@ export class TranslateService {
       command_inprogress: 'Command in progress ...',
       resume: 'Resume',
       pay_done: 'Payment done !',
-      thank_for_pay: 'Thank you for your payment !',
+      thank_for_pay: 'Thank you for your purshase !',
     },
   };
 

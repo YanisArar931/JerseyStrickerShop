@@ -59,19 +59,22 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
             <div class="flex flex-col sm:flex-row gap-4">
               <div class="flex-1">
-                <label for="expDate" class="block text-sm sm:text-base font-medium mb-1"
-                  >MM/AA</label
-                >
+                <label for="expDate" class="block text-sm sm:text-base font-medium mb-1">
+                  MM/AA
+                </label>
                 <input
                   id="expDate"
                   type="text"
                   [(ngModel)]="expDate"
                   name="expDate"
                   maxlength="5"
+                  (blur)="validateExpDate()"
                   class="w-full border rounded-md px-3 py-2 sm:px-4 sm:py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
                 />
+                <p *ngIf="expDateError" class="text-red-500 text-sm mt-1">Date invalide</p>
               </div>
+
               <div class="flex-1">
                 <label for="cvv" class="block text-sm sm:text-base font-medium mb-1">CVV</label>
                 <input
@@ -130,6 +133,7 @@ export class PaymentComponent implements OnInit {
   cardNumber = '';
   expDate = '';
   cvv = '';
+  expDateError = false;
 
   panierItems: { jersey: Jersey; size: string }[] = [];
 
@@ -171,5 +175,27 @@ export class PaymentComponent implements OnInit {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  validateExpDate() {
+    if (!this.expDate || this.expDate.length !== 5) {
+      this.expDateError = true;
+      return;
+    }
+
+    const [monthStr, yearStr] = this.expDate.split('/');
+    const month = parseInt(monthStr, 10);
+    const year = parseInt(yearStr, 10) + 2000;
+
+    if (isNaN(month) || isNaN(year) || month < 1 || month > 12) {
+      this.expDateError = true;
+      return;
+    }
+
+    const expDate = new Date(year, month - 1, 1);
+    expDate.setMonth(expDate.getMonth() + 1);
+
+    const now = new Date();
+    this.expDateError = expDate <= now;
   }
 }
