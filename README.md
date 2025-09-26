@@ -41,9 +41,11 @@ Le projet inclut une partie **User** et une partie **Admin**, avec gestion d’a
 ## 📦 Installation & Lancement
 
 ### 1. Cloner le repo
+
 ```bash
 git clone https://github.com/ton-compte/jerseystrickershop.git
 cd jerseystrickershop
+```
 
 ---
 
@@ -52,11 +54,13 @@ cd jerseystrickershop
 ### 2. Installer les dépendances
 ```bash
 npm install
+```
 
 
 ### 3. Démarrer le serveur de développement
 ```bash
 ng serve 
+```
 
 L’application sera disponible sur http://localhost:4200
 Rechargement automatique activé lors des modifications de fichiers.
@@ -68,11 +72,13 @@ Angular CLI inclut des outils puissants pour générer du code.
 
 ```bash
 ng generate component component-name
+```
 
 ### Voir la liste complète :
 
 ```bash
 ng generate --help
+```
 
 ---
 
@@ -81,6 +87,7 @@ ng generate --help
 
 ```bash
 ng build
+```
 
 ---
 
@@ -90,7 +97,7 @@ ng build
 
 ```bash
 ng test
-
+```
 ---
 
 ## 📱 PWA
