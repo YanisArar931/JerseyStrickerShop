@@ -1,59 +1,106 @@
-# JerseyStrickerShop
+# 🏪 JerseyStrickerShop
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+Jersey Stricker Shop est une application de e-commerce spécialisé dans le sport et plus précisément dans le foot. 
+Ce qui est disponible sur l'application ? Les maillots des plus grandes équipes parmis les 5 grands championnats européens.  
+Le projet inclut une partie **User** et une partie **Admin**, avec gestion d’authentification, paiement, multilingue et fonctionnalités avancées.  
 
-## Development server
+🌐 **Application en ligne** : https://jersey-stricker-shop.vercel.app/
 
-To start a local development server, run:
+---
 
+## 🚀 Fonctionnalités
+
+### Partie **User**
+- 🔑 Authentification (inscription, connexion)  
+- 👕 Navigation entre les maillots  
+- ➕➖ Ajout et suppression d’articles dans le panier  
+- ✅ Validation et système de paiement  
+- 🌐 Multilingue (français et anglais)  
+- 📱 PWA : accès hors-ligne et installation sur mobile  
+
+### Partie **Admin**
+- 👀 Vue sur les utilisateurs inscrits  
+- ❌ Suppression d’utilisateurs  
+- 👕 Vue sur les maillots en ligne  
+- ✏️ Modification du prix et du stock des maillots  
+- 🚫 Blocage des ventes de maillots (durée indéterminée)  
+- ➖ Suppression de maillots  
+- ➕ Ajout de nouveaux maillots  
+
+---
+
+## 🛠️ Stack technique
+
+- **Framework** : Angular 18+  
+- **UI** : TailwindCSS  
+- **PWA** : Service Worker Angular  
+- **Déploiement** : Vercel  
+
+---
+
+## 📦 Installation & Lancement
+
+### 1. Cloner le repo
 ```bash
-ng serve
-```
+git clone https://github.com/ton-compte/jerseystrickershop.git
+cd jerseystrickershop
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Installation & Démarrage
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 2. Installer les dépendances
+```bash
+npm install
+
+
+### 3. Démarrer le serveur de développement
+```bash
+ng serve 
+
+L’application sera disponible sur http://localhost:4200
+Rechargement automatique activé lors des modifications de fichiers.
+
+### Génération de code (scaffolding)
+Angular CLI inclut des outils puissants pour générer du code.
+
+### Crée un composant : 
 
 ```bash
 ng generate component component-name
-```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Voir la liste complète :
 
 ```bash
 ng generate --help
-```
 
-## Building
+---
 
-To build the project run:
+## 🏗️ Build de production
+### Compiler le projet
 
 ```bash
 ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## ✅ Tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Lancer les tests
 
 ```bash
 ng test
-```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 📱 PWA
 
-```bash
-ng e2e
-```
+Accès au site sous différents formats
+Utilisation **hors ligne**
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 🌍 Déploiement
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Le projet est déployé sur Vercel :
+👉 jersey-stricker-shop.vercel.app
