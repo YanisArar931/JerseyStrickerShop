@@ -9,12 +9,11 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   return toObservable(authService.currentUser$).pipe(
-    take(1), // Prendre seulement la première valeur
+    take(1),
     map((user) => {
       if (user) {
         return true; // Accès autorisé
       } else {
-        // Rediriger vers login avec l'URL de retour
         router.navigate(['/auth/login'], {
           queryParams: { returnUrl: state.url },
         });

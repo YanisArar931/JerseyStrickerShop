@@ -35,7 +35,7 @@ export class Login {
       this.authService.login({ email, password }).subscribe({
         next: () => {
           this.loading.set(false);
-          this.router.navigate(['/jersey']); // Redirection après login
+          this.router.navigate(['/jersey']);
         },
         error: (err) => {
           this.loading.set(false);

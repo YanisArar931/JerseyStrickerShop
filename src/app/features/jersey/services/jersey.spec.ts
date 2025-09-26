@@ -5,13 +5,12 @@ describe('JerseyService', () => {
   let service: JerseyService;
 
   beforeEach(() => {
-    // 🧹 Nettoyer le localStorage avant chaque test
     localStorage.clear();
     service = new JerseyService();
   });
 
   it('should delete a jersey by id', () => {
-    const initialCount = service.getAllJersey().length; // 70
+    const initialCount = service.getAllJersey().length;
 
     const jersey1: Jersey = {
       id: 1000,
@@ -35,10 +34,8 @@ describe('JerseyService', () => {
     service.addJersey(jersey1);
     service.addJersey(jersey2);
 
-    // Vérifier qu’on a bien +2 par rapport au départ
     expect(service.getAllJersey().length).toBe(initialCount + 2);
 
-    // Supprimer le deuxième
     service.deleteJersey(1001);
 
     const remaining = service.getAllJersey();

@@ -190,7 +190,6 @@ export class JerseyListComponent implements OnInit {
   selectedJersey = signal<Jersey | null>(null);
   private panierService = inject(PanierService);
 
-  // Pour la taille sélectionnée
   selectedSize: string | null = null;
 
   private jerseyService = inject(JerseyService);

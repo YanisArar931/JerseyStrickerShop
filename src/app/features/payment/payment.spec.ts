@@ -22,7 +22,6 @@ describe('PaymentComponent Integration', () => {
 
     panierService = TestBed.inject(PanierService) as jasmine.SpyObj<PanierService>;
 
-    // Simuler un panier avec 1 maillot
     const mockJersey: Jersey = {
       id: 1,
       name: 'Domicile',

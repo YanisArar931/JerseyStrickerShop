@@ -4,7 +4,6 @@ import { ReductionDirective } from './reduction.directive';
 import { TranslateService } from '../services/translate.services';
 import { By } from '@angular/platform-browser';
 
-// 🧪 Composant hôte pour tester la directive
 @Component({
   template: `<span [appReduction]="price"></span>`,
   standalone: true,
@@ -14,7 +13,6 @@ class TestHostComponent {
   price!: number;
 }
 
-// 🧪 Fake TranslateService pour les tests
 class FakeTranslateService {
   translate(key: string) {
     return `translated-${key}`;
@@ -43,7 +41,7 @@ describe('ReductionDirective', () => {
 
     expect(span.textContent).toBe('translated-reduction');
     expect(span.style.display).toBe('inline-block');
-    expect(span.style.backgroundColor).toBe('rgb(74, 140, 210)'); // #4a8cd2
+    expect(span.style.backgroundColor).toBe('rgb(74, 140, 210)');
     expect(span.style.color).toBe('white');
   });
 

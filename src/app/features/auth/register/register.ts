@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.services';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
-// Validateur personnalisé pour la confirmation de mot de passe
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
   const confirmPassword = control.get('confirmPassword');
@@ -178,7 +177,6 @@ export class Register {
       this.loading.set(true);
       this.error.set('');
 
-      // const { confirmPasswor, ...userData } = this.registerForm.value;
       const userData = { ...this.registerForm.value };
       delete userData.confirmPassword;
 

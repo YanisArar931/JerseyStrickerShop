@@ -15,7 +15,7 @@ export const adminGuard: CanActivateFn = () => {
         return true; // Accès admin autorisé
       } else {
         // Rediriger vers la page d'accueil
-        router.navigate(['/todos']);
+        router.navigate(['/jersey']);
         return false; // Accès refusé
       }
     }),
