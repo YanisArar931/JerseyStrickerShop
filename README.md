@@ -110,4 +110,4 @@ Utilisation **hors ligne**
 ## 🌍 Déploiement
 
 Le projet est déployé sur Vercel :
-👉 jersey-stricker-shop.vercel.app
+👉 https://jersey-stricker-shop.vercel.app/
