@@ -63,6 +63,7 @@ export class TranslateService {
       resume: 'Résumé',
       pay_done: 'Paiement réussi !',
       thank_for_pay: 'Merci pour votre achat !',
+      connexion_inprogress: 'Connexion en cours ...',
     },
     en: {
       panier: 'Add to Cart',
@@ -121,6 +122,7 @@ export class TranslateService {
       resume: 'Resume',
       pay_done: 'Payment done !',
       thank_for_pay: 'Thank you for your purshase !',
+      connexion_inprogress: 'Connexion in progress ...',
     },
   };
 
